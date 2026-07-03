@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo";
+  --brand-s: #6494FF;
+  --brand-a: #9FF600;
+  --brand-i: #6494FF;
+  --brand-t: #FF4265;
+  --brand-o: #FEB900;
+  --brand-u: #FF4265;
+  --brand-r: #FF4265;
+  --brand-primary: var(--brand-s);
+  --brand-secondary: var(--brand-a);
+  --brand-accent-pink: var(--brand-t);
+  --brand-accent-orange: var(--brand-o);
+  --brand-success: var(--brand-a);
+  --brand-warning: var(--brand-o);
+  --brand-error: var(--brand-t);
+  --brand-background: #ffffff;
+  --brand-surface: #F5F7FA;
+  --brand-border: #E2E8F0;
+  --brand-text: #0F172A;
+  --brand-body: #333333;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: #333333;
+  background: #ffffff;
+}
+
+a,
+button,
+input,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.container-px {
+  @apply px-5 sm:px-6 lg:px-8;
+}
+
+.section-y {
+  @apply py-14 sm:py-16 lg:py-20;
+}
+
+main > section:first-child:not(.home-hero) {
+  padding-top: 8rem;
+}
+
+@media (min-width: 640px) {
+  main > section:first-child:not(.home-hero) {
+    padding-top: 9rem;
+  }
+}
+
+.btn-primary {
+  @apply inline-flex min-h-12 items-center justify-center whitespace-nowrap rounded-lg bg-brand-primary px-5 py-3 text-center text-sm font-bold text-white shadow-soft transition duration-200 hover:bg-brand-accent-pink focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2;
+}
+
+.btn-secondary {
+  @apply inline-flex min-h-12 items-center justify-center whitespace-nowrap rounded-lg border border-brand-border bg-white px-5 py-3 text-center text-sm font-bold text-navy transition-colors duration-200 hover:border-brand-primary hover:bg-brand-surface hover:text-brand-primary focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2;
+}
+
+.eyebrow {
+  @apply text-sm font-bold uppercase tracking-[0.18em] text-brand-primary;
+}
+
+.card {
+  @apply rounded-[20px] border border-slate-100 bg-white p-5 shadow-soft sm:p-6;
+}
+
+.card-hover {
+  @apply transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_16px_36px_rgba(15,23,42,0.1)];
+}
+
+.icon-circle {
+  @apply grid h-12 w-12 place-items-center rounded-full bg-brand-surface text-brand-primary;
+}
+
+.hero-slide {
+  animation: heroFade 24s infinite;
+  opacity: 0;
+}
+
+.scroll-indicator {
+  animation: scrollPulse 1.8s ease-in-out infinite;
+  transform-origin: top;
+}
+
+@keyframes heroFade {
+  0% {
+    opacity: 1;
+  }
+  6% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 1;
+  }
+  31% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes scrollPulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scaleY(0.65);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
