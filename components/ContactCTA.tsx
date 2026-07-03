@@ -1,11 +1,19 @@
 "use client";
 
 import type { FormEvent } from "react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_HREF } from "@/constants/site";
 
 type ContactFormErrors = Partial<Record<"name" | "phone" | "message" | "privacy", string>>;
 type SubmitState = "idle" | "submitting" | "success" | "error";
+type ContactFormPayload = {
+  name: string;
+  phone: string;
+  email: string;
+  type: string;
+  message: string;
+  privacy: boolean;
+};
 
 const contactInfo = [
   {
@@ -29,26 +37,40 @@ const contactInfo = [
 
 const inquiryTypes = ["공항픽업", "서울 시티투어", "DMZ 투어", "프라이빗 투어", "기업행사", "가이드 서비스", "기타"];
 
-function validateContactForm(formData: FormData) {
-  const errors: ContactFormErrors = {};
-  const name = String(formData.get("name") || "").trim();
-  const phone = String(formData.get("phone") || "").trim();
-  const message = String(formData.get("message") || "").trim();
-  const privacy = formData.get("privacy") === "on";
+function getFormString(formData: FormData, key: string) {
+  return String(formData.get(key) || "").trim();
+}
 
-  if (!name) {
+function getContactFormPayload(form: HTMLFormElement): ContactFormPayload {
+  const formData = new FormData(form);
+  const privacyInput = form.elements.namedItem("privacy");
+
+  return {
+    name: getFormString(formData, "name"),
+    phone: getFormString(formData, "phone"),
+    email: getFormString(formData, "email"),
+    type: getFormString(formData, "type"),
+    message: getFormString(formData, "message"),
+    privacy: privacyInput instanceof HTMLInputElement ? privacyInput.checked === true : false
+  };
+}
+
+function validateContactForm(payload: ContactFormPayload) {
+  const errors: ContactFormErrors = {};
+
+  if (!payload.name) {
     errors.name = "이름을 입력해주세요.";
   }
 
-  if (!phone) {
+  if (!payload.phone) {
     errors.phone = "연락처를 입력해주세요.";
   }
 
-  if (!message) {
+  if (!payload.message) {
     errors.message = "문의 내용을 입력해주세요.";
   }
 
-  if (!privacy) {
+  if (!payload.privacy) {
     errors.privacy = "개인정보 수집 및 이용에 동의해주세요.";
   }
 
@@ -56,15 +78,13 @@ function validateContactForm(formData: FormData) {
 }
 
 export default function ContactCTA() {
+  const formRef = useRef<HTMLFormElement>(null);
   const [errors, setErrors] = useState<ContactFormErrors>({});
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const form = event.currentTarget;
-    const formData = new FormData(form);
-    const nextErrors = validateContactForm(formData);
+  const submitContactForm = async (form: HTMLFormElement) => {
+    const { name, phone, email, type, message, privacy } = getContactFormPayload(form);
+    const nextErrors = validateContactForm({ name, phone, email, type, message, privacy });
 
     setErrors(nextErrors);
 
@@ -75,23 +95,20 @@ export default function ContactCTA() {
 
     setSubmitState("submitting");
 
-    const payload = {
-      name: String(formData.get("name") || "").trim(),
-      phone: String(formData.get("phone") || "").trim(),
-      email: String(formData.get("email") || "").trim(),
-      type: String(formData.get("type") || "").trim(),
-      message: String(formData.get("message") || "").trim(),
-      privacy: formData.get("privacy") === "on",
-      website: String(formData.get("website") || "")
-    };
-
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({
+          name,
+          phone,
+          email,
+          type,
+          message,
+          privacy
+        })
       });
 
       if (!response.ok) {
@@ -104,6 +121,19 @@ export default function ContactCTA() {
     } catch {
       setSubmitState("error");
     }
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    void submitContactForm(event.currentTarget);
+  };
+
+  const handleButtonClick = () => {
+    if (!formRef.current || submitState === "submitting") {
+      return;
+    }
+
+    void submitContactForm(formRef.current);
   };
 
   return (
@@ -163,15 +193,8 @@ export default function ContactCTA() {
             </div>
           </div>
 
-          <form className="card sm:p-8" noValidate onSubmit={handleSubmit}>
+          <form ref={formRef} className="card sm:p-8" noValidate onSubmit={handleSubmit}>
             <h3 className="text-2xl font-bold text-navy">간단 문의 폼</h3>
-            <input
-              name="website"
-              tabIndex={-1}
-              autoComplete="off"
-              className="hidden"
-              aria-hidden="true"
-            />
             <div className="mt-6 grid gap-5 sm:grid-cols-2">
               <label className="block">
                 <span className="text-sm font-semibold text-slate-600">이름</span>
@@ -261,7 +284,12 @@ export default function ContactCTA() {
               </p>
             ) : null}
 
-            <button type="submit" className="btn-primary mt-6 w-full sm:w-auto" disabled={submitState === "submitting"}>
+            <button
+              type="button"
+              className="btn-primary mt-6 w-full sm:w-auto"
+              disabled={submitState === "submitting"}
+              onClick={handleButtonClick}
+            >
               {submitState === "submitting" ? "전송 중..." : "문의 보내기"}
             </button>
           </form>

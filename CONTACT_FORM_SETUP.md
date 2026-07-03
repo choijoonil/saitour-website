@@ -44,6 +44,27 @@ CONTACT_FROM_EMAIL=SAITOUR <contact@saitour.net>
 
 Resend는 인증되지 않은 발신 주소로는 운영 발송이 제한될 수 있습니다.
 
+## Resend 테스트 발송 주의사항
+
+Resend에서 기본으로 제공하는 `onboarding@resend.dev`는 테스트용 발신 주소입니다.
+이 주소를 `CONTACT_FROM_EMAIL`로 사용할 경우, Resend 정책에 따라 수신 이메일이 Resend 가입 이메일로 제한될 수 있습니다.
+
+임시 테스트가 실패한다면 Vercel 환경변수의 `CONTACT_TO_EMAIL`을 먼저 Resend 가입 이메일로 바꿔 테스트하세요.
+현재 테스트 수신 권장값:
+
+```env
+CONTACT_TO_EMAIL=nakata673@gmail.com
+CONTACT_FROM_EMAIL=onboarding@resend.dev
+```
+
+운영 발송은 `saitour.net` 또는 `saitour.kr` 도메인을 Resend에서 인증한 뒤 사용하는 것을 권장합니다.
+도메인 인증 후에는 예를 들어 아래처럼 운영 발신 주소를 사용할 수 있습니다.
+
+```env
+CONTACT_TO_EMAIL=ceo@saitour.kr
+CONTACT_FROM_EMAIL=SAITOUR <contact@saitour.net>
+```
+
 ## Vercel 환경변수 등록 방법
 
 1. Vercel 프로젝트로 이동합니다.
@@ -76,8 +97,8 @@ Resend는 인증되지 않은 발신 주소로는 운영 발송이 제한될 수
 
 ```env
 RESEND_API_KEY=your_resend_key
-CONTACT_TO_EMAIL=ceo@saitour.kr
-CONTACT_FROM_EMAIL=SAITOUR <verified-sender@example.com>
+CONTACT_TO_EMAIL=nakata673@gmail.com
+CONTACT_FROM_EMAIL=onboarding@resend.dev
 ```
 
 실행:
@@ -99,7 +120,8 @@ npm run dev
 문의가 접수되었습니다. 확인 후 빠르게 연락드리겠습니다.
 ```
 
-5. `ceo@saitour.kr` 메일함에 문의 메일이 도착했는지 확인합니다.
+5. 테스트 단계에서는 Resend 가입 이메일 또는 `CONTACT_TO_EMAIL`로 설정한 메일함에 문의 메일이 도착했는지 확인합니다.
+6. 운영 전에는 Resend 도메인 인증 후 `CONTACT_TO_EMAIL=ceo@saitour.kr`로 변경합니다.
 
 ## 주의사항
 

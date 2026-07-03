@@ -28,6 +28,32 @@ function jsonError(message: string, status = 400) {
   return NextResponse.json({ ok: false, message }, { status });
 }
 
+function getErrorMessage(error: unknown) {
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  if (typeof error === "string") {
+    return error;
+  }
+
+  try {
+    return JSON.stringify(error);
+  } catch {
+    return "Unknown error";
+  }
+}
+
+function contactError(message: string, status: number, error?: unknown) {
+  const errorMessage = error ? getErrorMessage(error) : undefined;
+  const body =
+    process.env.NODE_ENV === "production" || !errorMessage
+      ? { ok: false, message }
+      : { ok: false, message, error: errorMessage };
+
+  return NextResponse.json(body, { status });
+}
+
 export async function POST(request: Request) {
   let payload: ContactPayload;
 
@@ -72,7 +98,12 @@ export async function POST(request: Request) {
   const fromEmail = process.env.CONTACT_FROM_EMAIL;
 
   if (!resendApiKey || !fromEmail) {
-    return jsonError("Email service is not configured", 500);
+    console.error("[contact] Email service is not configured", {
+      hasResendApiKey: Boolean(resendApiKey),
+      hasContactFromEmail: Boolean(fromEmail),
+      toEmail
+    });
+    return contactError("Email service is not configured", 500, "Missing RESEND_API_KEY or CONTACT_FROM_EMAIL");
   }
 
   const receivedAt = new Intl.DateTimeFormat("ko-KR", {
@@ -105,11 +136,23 @@ export async function POST(request: Request) {
     });
 
     if (error) {
-      return jsonError("Failed to send email", 502);
+      console.error("[contact] Resend email send failed", {
+        error,
+        fromEmail,
+        toEmail,
+        subject
+      });
+      return contactError("Failed to send email", 502, error);
     }
 
     return NextResponse.json({ ok: true });
-  } catch {
-    return jsonError("Failed to send email", 502);
+  } catch (error) {
+    console.error("[contact] Unexpected contact email error", {
+      error,
+      fromEmail,
+      toEmail,
+      subject
+    });
+    return contactError("Failed to send email", 502, error);
   }
 }
