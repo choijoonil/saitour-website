@@ -88,6 +88,30 @@ main > section:first-child:not(.home-hero) {
   opacity: 0;
 }
 
+.hero-title {
+  word-break: keep-all;
+  overflow-wrap: normal;
+  line-break: strict;
+}
+
+.hero-nowrap {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.service-card-eyebrow {
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+
+.service-card-title {
+  color: #ffffff !important;
+}
+
+.service-card-description {
+  color: rgba(255, 255, 255, 0.88) !important;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.42);
+}
+
 .scroll-indicator {
   animation: scrollPulse 1.8s ease-in-out infinite;
   transform-origin: top;

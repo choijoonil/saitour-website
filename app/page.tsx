@@ -56,19 +56,25 @@ export default function Home() {
         </div>
 
         <div className="container-px relative z-10 mx-auto flex min-h-[760px] max-w-7xl items-center pt-24 pb-20 sm:pt-28 lg:pt-32">
-          <div className="max-w-[680px]">
+          <div className="max-w-[960px]">
             <p className="text-sm font-bold uppercase tracking-[0.24em] text-mint sm:text-base">
               SAITOUR · Always Good Buddy
             </p>
-            <h1 className="mt-6 max-w-4xl font-bold tracking-normal text-white">
-              <span className="block text-3xl leading-tight sm:text-4xl lg:text-5xl">
-                인바운드 · DMZ투어 · 서울시티투어
+            <h1 className="hero-title mt-7 max-w-[1040px] font-bold tracking-normal text-white">
+              <span className="block text-[2rem] leading-[1.15] sm:text-[2.65rem] lg:text-[3.25rem] xl:text-[3.65rem]">
+                <span className="hero-nowrap">외국인을 위한</span>{" "}
+                <span className="hero-nowrap">한국여행</span>
               </span>
-              <span className="mt-4 block text-5xl leading-tight sm:text-6xl lg:text-[4.5rem]">
-                사이투어가 함께합니다.
+              <span className="mt-2.5 block text-[1.75rem] font-semibold leading-[1.18] text-white/88 sm:text-[2.25rem] lg:mt-3 lg:text-[2.85rem] xl:text-[3.15rem]">
+                <span className="hero-nowrap">DMZ</span>{" "}
+                <span aria-hidden="true">·</span>{" "}
+                <span className="hero-nowrap">서울시티투어</span>
+              </span>
+              <span className="mt-5 block text-[2.55rem] leading-[1.08] sm:mt-6 sm:text-[4rem] lg:text-[5rem] xl:text-[5.45rem]">
+                <span className="hero-nowrap">사이투어가 함께 합니다.</span>
               </span>
             </h1>
-            <p className="mt-8 max-w-xl text-base leading-8 text-white/78 sm:text-lg sm:leading-9">
+            <p className="mt-7 max-w-xl text-base leading-8 text-white/78 sm:mt-8 sm:text-lg sm:leading-9">
               외국인 한국여행부터 기업행사까지,
               <br className="hidden sm:block" />
               고객의 목적에 맞는 맞춤형 서비스를 제공합니다.
@@ -116,15 +122,16 @@ export default function Home() {
                   sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                   style={{ objectPosition: service.imagePosition }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy/88 via-navy/42 to-navy/14 transition duration-300 group-hover:from-navy/92 group-hover:via-navy/48" />
+                <div className="absolute inset-0 bg-black/20 transition duration-300 group-hover:bg-black/24" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-black/38 to-black/76 transition duration-300 group-hover:to-black/82" />
                 <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/72">
+                  <p className="service-card-eyebrow text-[11px] font-bold uppercase tracking-[0.18em] drop-shadow-sm">
                     {service.english}
                   </p>
-                  <h3 className="mt-2 text-xl font-bold leading-tight text-white sm:text-2xl">
+                  <h3 className="service-card-title mt-2 text-xl font-bold leading-tight drop-shadow-sm sm:text-2xl">
                     {service.title}
                   </h3>
-                  <p className="mt-3 line-clamp-2 text-sm leading-6 text-white/78">
+                  <p className="service-card-description mt-3 line-clamp-2 text-sm leading-6 drop-shadow-sm">
                     {service.description}
                   </p>
                 </div>
@@ -162,26 +169,28 @@ export default function Home() {
       </section>
 
       <section className="section-y bg-white">
-        <div className="container-px mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-          <div>
+        <div className="container-px mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <div className="max-w-[620px]">
             <p className="eyebrow">About SAITOUR</p>
-            <h2 className="mt-4 max-w-2xl text-3xl font-bold leading-tight tracking-normal text-navy sm:text-4xl">
-              고객의 여정을 함께 설계하는 여행 파트너
+            <h2 className="mt-4 text-[2.15rem] font-bold leading-[1.14] tracking-normal text-navy sm:text-[2.75rem] lg:text-[3.15rem]">
+              <span className="block whitespace-nowrap">고객의 여정을</span>
+              <span className="mt-1 block whitespace-nowrap">함께 설계하는</span>
+              <span className="mt-1 block whitespace-nowrap">여행 파트너</span>
             </h2>
-            <div className="mt-6 max-w-2xl space-y-4 text-base leading-8 text-slate-600 sm:text-lg">
-              <p>
+            <div className="mt-7 max-w-[590px] space-y-3.5 text-[15px] leading-8 text-slate-600 sm:text-[17px] sm:leading-9">
+              <p className="break-keep">
                 사이투어는 외국인 한국여행부터 기업행사까지, 고객의 목적에 맞는 맞춤형 서비스를 제공합니다.
               </p>
-              <p>
+              <p className="break-keep">
                 공항 픽업부터 전용차량, 전문 가이드, 일정 운영까지 여행의 시작부터 마무리까지
                 세심하게 함께합니다.
               </p>
             </div>
-            <div className="mt-7 flex flex-wrap gap-2.5">
+            <div className="mt-8 flex max-w-[560px] flex-wrap gap-2.5">
               {aboutKeywords.map((keyword) => (
                 <span
                   key={keyword}
-                  className="rounded-full bg-mint-light px-4 py-2 text-sm font-bold text-mint"
+                  className="inline-flex min-h-9 items-center rounded-full bg-mint-light px-4 text-[13px] font-bold leading-none text-mint sm:text-sm"
                 >
                   {keyword}
                 </span>

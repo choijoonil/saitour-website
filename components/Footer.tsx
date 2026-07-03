@@ -23,11 +23,7 @@ export default function Footer() {
                 {CONTACT_PHONE_DISPLAY}
               </a>
             </li>
-            <li>
-              <a href={`mailto:${CONTACT_EMAIL}`} className="transition hover:text-brand-primary">
-                {CONTACT_EMAIL}
-              </a>
-            </li>
+            <li>{CONTACT_EMAIL}</li>
           </ul>
         </div>
 

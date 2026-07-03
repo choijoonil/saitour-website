@@ -24,8 +24,8 @@ export const tours: Tour[] = [
     image: imagePaths.services.dmz,
     duration: "반일 또는 종일",
     itinerary: ["문의 접수", "방문 가능 일정 확인", "코스 및 차량 조율", "가이드 배정", "현장 진행"],
-    included: ["일정 상담", "전용 차량 조율", "전문 가이드"],
-    excluded: ["입장료", "식사", "개인 비용"],
+    included: ["일정 상담", "전용 차량 조율", "전문 가이드", "입장료"],
+    excluded: ["식사", "개인 비용"],
     recommendedFor: ["외국인 고객", "비즈니스 방문", "역사 문화 투어"]
   },
   {
@@ -37,8 +37,8 @@ export const tours: Tour[] = [
     image: imagePaths.services.seoulCity,
     duration: "반일 또는 종일",
     itinerary: ["희망 일정 확인", "서울 코스 설계", "차량 및 가이드 조율", "현장 안내", "일정 종료"],
-    included: ["맞춤 코스 상담", "전문 가이드", "차량 조율"],
-    excluded: ["입장료", "식사", "개인 비용"],
+    included: ["맞춤 코스 상담", "전문 가이드", "차량 조율", "입장료"],
+    excluded: ["식사", "개인 비용"],
     recommendedFor: ["외국인 한국여행", "가족 방문", "비즈니스 게스트"]
   },
   {
@@ -50,8 +50,8 @@ export const tours: Tour[] = [
     image: imagePaths.services.airportTransfer,
     duration: "편도 기준",
     itinerary: ["항공편 확인", "공항 미팅", "수하물 이동 안내", "목적지 도착"],
-    included: ["전용 차량", "드라이버", "공항 미팅 안내"],
-    excluded: ["주차비", "통행료", "개인 비용"],
+    included: ["전용 차량", "드라이버", "공항 미팅 안내", "주차비", "통행료"],
+    excluded: ["경유지 추가 여부"],
     recommendedFor: ["입국 고객", "단체 이동", "비즈니스 방문"]
   },
   {

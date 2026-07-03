@@ -44,6 +44,6 @@
 - https://www.saitour.net/sitemap.xml
 - 카카오 상담 버튼 새 창 열림
 - 전화 링크 tel:0263410042
-- 이메일 링크 mailto:ceo@saitour.kr
+- 문의폼 Resend 이메일 발송
 - 네이버 블로그 링크 새 창 열림
 - PC / 모바일 Header, Footer, CTA 확인

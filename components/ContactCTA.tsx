@@ -1,7 +1,11 @@
 "use client";
 
 import type { FormEvent } from "react";
+import { useState } from "react";
 import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_HREF } from "@/constants/site";
+
+type ContactFormErrors = Partial<Record<"name" | "phone" | "message" | "privacy", string>>;
+type SubmitState = "idle" | "submitting" | "success" | "error";
 
 const contactInfo = [
   {
@@ -15,8 +19,7 @@ const contactInfo = [
   },
   {
     label: "이메일",
-    value: CONTACT_EMAIL,
-    href: `mailto:${CONTACT_EMAIL}`
+    value: CONTACT_EMAIL
   },
   {
     label: "주소",
@@ -26,26 +29,81 @@ const contactInfo = [
 
 const inquiryTypes = ["공항픽업", "서울 시티투어", "DMZ 투어", "프라이빗 투어", "기업행사", "가이드 서비스", "기타"];
 
+function validateContactForm(formData: FormData) {
+  const errors: ContactFormErrors = {};
+  const name = String(formData.get("name") || "").trim();
+  const phone = String(formData.get("phone") || "").trim();
+  const message = String(formData.get("message") || "").trim();
+  const privacy = formData.get("privacy") === "on";
+
+  if (!name) {
+    errors.name = "이름을 입력해주세요.";
+  }
+
+  if (!phone) {
+    errors.phone = "연락처를 입력해주세요.";
+  }
+
+  if (!message) {
+    errors.message = "문의 내용을 입력해주세요.";
+  }
+
+  if (!privacy) {
+    errors.privacy = "개인정보 수집 및 이용에 동의해주세요.";
+  }
+
+  return errors;
+}
+
 export default function ContactCTA() {
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const [errors, setErrors] = useState<ContactFormErrors>({});
+  const [submitState, setSubmitState] = useState<SubmitState>("idle");
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const formData = new FormData(event.currentTarget);
-    const name = String(formData.get("name") || "");
-    const phone = String(formData.get("phone") || "");
-    const type = String(formData.get("type") || "");
-    const message = String(formData.get("message") || "");
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const nextErrors = validateContactForm(formData);
 
-    const body = [
-      `이름: ${name}`,
-      `연락처: ${phone}`,
-      `문의 유형: ${type}`,
-      "",
-      "문의 내용:",
-      message
-    ].join("\n");
+    setErrors(nextErrors);
 
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`[사이투어 문의] ${type}`)}&body=${encodeURIComponent(body)}`;
+    if (Object.keys(nextErrors).length > 0) {
+      setSubmitState("idle");
+      return;
+    }
+
+    setSubmitState("submitting");
+
+    const payload = {
+      name: String(formData.get("name") || "").trim(),
+      phone: String(formData.get("phone") || "").trim(),
+      email: String(formData.get("email") || "").trim(),
+      type: String(formData.get("type") || "").trim(),
+      message: String(formData.get("message") || "").trim(),
+      privacy: formData.get("privacy") === "on",
+      website: String(formData.get("website") || "")
+    };
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error("Contact request failed");
+      }
+
+      form.reset();
+      setErrors({});
+      setSubmitState("success");
+    } catch {
+      setSubmitState("error");
+    }
   };
 
   return (
@@ -105,38 +163,57 @@ export default function ContactCTA() {
             </div>
           </div>
 
-          <form className="card sm:p-8" onSubmit={handleSubmit}>
+          <form className="card sm:p-8" noValidate onSubmit={handleSubmit}>
             <h3 className="text-2xl font-bold text-navy">간단 문의 폼</h3>
+            <input
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              className="hidden"
+              aria-hidden="true"
+            />
             <div className="mt-6 grid gap-5 sm:grid-cols-2">
               <label className="block">
                 <span className="text-sm font-semibold text-slate-600">이름</span>
                 <input
                   name="name"
-                  required
-                  className="mt-2 min-h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-navy outline-none transition focus:border-mint focus:ring-2 focus:ring-mint/20"
+                  className={`mt-2 min-h-12 w-full rounded-xl border bg-white px-4 text-sm text-navy outline-none transition focus:border-mint focus:ring-2 focus:ring-mint/20 ${
+                    errors.name ? "border-brand-error" : "border-slate-200"
+                  }`}
                   placeholder="이름을 입력해주세요"
+                  aria-invalid={Boolean(errors.name)}
                 />
+                {errors.name ? <p className="mt-2 text-xs font-semibold text-brand-error">{errors.name}</p> : null}
               </label>
               <label className="block">
                 <span className="text-sm font-semibold text-slate-600">연락처</span>
                 <input
                   name="phone"
-                  required
-                  className="mt-2 min-h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-navy outline-none transition focus:border-mint focus:ring-2 focus:ring-mint/20"
+                  className={`mt-2 min-h-12 w-full rounded-xl border bg-white px-4 text-sm text-navy outline-none transition focus:border-mint focus:ring-2 focus:ring-mint/20 ${
+                    errors.phone ? "border-brand-error" : "border-slate-200"
+                  }`}
                   placeholder="연락 가능한 번호"
+                  aria-invalid={Boolean(errors.phone)}
+                />
+                {errors.phone ? <p className="mt-2 text-xs font-semibold text-brand-error">{errors.phone}</p> : null}
+              </label>
+              <label className="block sm:col-span-2">
+                <span className="text-sm font-semibold text-slate-600">이메일</span>
+                <input
+                  name="email"
+                  type="email"
+                  className="mt-2 min-h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-navy outline-none transition focus:border-mint focus:ring-2 focus:ring-mint/20"
+                  placeholder="이메일 주소"
                 />
               </label>
               <label className="block sm:col-span-2">
                 <span className="text-sm font-semibold text-slate-600">문의 유형</span>
                 <select
                   name="type"
-                  required
                   defaultValue=""
                   className="mt-2 min-h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-navy outline-none transition focus:border-mint focus:ring-2 focus:ring-mint/20"
                 >
-                  <option value="" disabled>
-                    문의 유형을 선택해주세요
-                  </option>
+                  <option value="">문의 유형 선택</option>
                   {inquiryTypes.map((type) => (
                     <option key={type} value={type}>
                       {type}
@@ -148,27 +225,44 @@ export default function ContactCTA() {
                 <span className="text-sm font-semibold text-slate-600">문의 내용</span>
                 <textarea
                   name="message"
-                  required
                   rows={6}
-                  className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm leading-6 text-navy outline-none transition focus:border-mint focus:ring-2 focus:ring-mint/20"
+                  className={`mt-2 w-full rounded-xl border bg-white px-4 py-3 text-sm leading-6 text-navy outline-none transition focus:border-mint focus:ring-2 focus:ring-mint/20 ${
+                    errors.message ? "border-brand-error" : "border-slate-200"
+                  }`}
                   placeholder="일정, 인원, 목적, 희망 서비스를 간단히 남겨주세요"
+                  aria-invalid={Boolean(errors.message)}
                 />
+                {errors.message ? <p className="mt-2 text-xs font-semibold text-brand-error">{errors.message}</p> : null}
               </label>
             </div>
 
             <label className="mt-5 flex gap-3 rounded-2xl bg-paper p-4 text-sm leading-6 text-slate-600">
               <input
+                name="privacy"
                 type="checkbox"
-                required
                 className="mt-1 h-4 w-4 rounded border-slate-300 text-mint focus:ring-mint"
+                aria-invalid={Boolean(errors.privacy)}
               />
               <span>
                 문의 응대를 위해 이름, 연락처, 문의 내용을 수집하며 상담 목적 외에는 사용하지 않습니다.
               </span>
             </label>
+            {errors.privacy ? <p className="mt-2 text-xs font-semibold text-brand-error">{errors.privacy}</p> : null}
 
-            <button type="submit" className="btn-primary mt-6 w-full sm:w-auto">
-              문의 보내기
+            {submitState === "success" ? (
+              <p className="mt-5 rounded-2xl bg-brand-surface p-4 text-sm font-semibold text-brand-primary">
+                문의가 접수되었습니다. 확인 후 빠르게 연락드리겠습니다.
+              </p>
+            ) : null}
+
+            {submitState === "error" ? (
+              <p className="mt-5 rounded-2xl bg-red-50 p-4 text-sm font-semibold text-brand-error">
+                전송 중 오류가 발생했습니다. 카카오 상담 또는 전화로 문의해주세요.
+              </p>
+            ) : null}
+
+            <button type="submit" className="btn-primary mt-6 w-full sm:w-auto" disabled={submitState === "submitting"}>
+              {submitState === "submitting" ? "전송 중..." : "문의 보내기"}
             </button>
           </form>
         </div>

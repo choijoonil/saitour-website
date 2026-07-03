@@ -10,7 +10,11 @@ export default function BlogCard({ post }: { post: BlogPost }) {
         </Link>
         <time dateTime={post.date}>{post.date}</time>
       </div>
-      <h3 className="mt-4 text-xl font-bold leading-7 text-navy">{post.title}</h3>
+      <h3 className="mt-4 text-xl font-bold leading-7 text-navy">
+        <a href={post.url} target="_blank" rel="noopener noreferrer" className="transition hover:text-brand-primary">
+          {post.title}
+        </a>
+      </h3>
       <p className="mt-3 text-sm leading-7 text-slate-600">{post.excerpt}</p>
       <a
         href={post.url}

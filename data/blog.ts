@@ -1,5 +1,3 @@
-import { NAVER_BLOG_URL } from "@/constants/site";
-
 export type BlogPost = {
   id: number;
   slug: string;
@@ -40,7 +38,7 @@ export const blogPosts: BlogPost[] = [
     date: "네이버 블로그",
     category: "공항픽업 안내",
     categorySlug: "airport-pickup",
-    url: NAVER_BLOG_URL
+    url: "https://blog.naver.com/cji6157/223517177859"
   },
   {
     id: 2,
@@ -50,7 +48,7 @@ export const blogPosts: BlogPost[] = [
     date: "네이버 블로그",
     category: "서울 시티투어",
     categorySlug: "seoul-city-tour",
-    url: NAVER_BLOG_URL
+    url: "https://blog.naver.com/cji6157/223944511084"
   },
   {
     id: 3,
@@ -60,7 +58,7 @@ export const blogPosts: BlogPost[] = [
     date: "네이버 블로그",
     category: "DMZ 투어",
     categorySlug: "dmz-tour",
-    url: NAVER_BLOG_URL
+    url: "https://blog.naver.com/cji6157/222886895145"
   }
 ];
 
