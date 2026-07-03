@@ -4,10 +4,21 @@ import { Resend } from "resend";
 type ContactPayload = {
   name?: string;
   phone?: string;
+  contact?: string;
+  phoneNumber?: string;
+  tel?: string;
   email?: string;
   type?: string;
+  category?: string;
+  inquiryType?: string;
   message?: string;
+  content?: string;
+  inquiry?: string;
+  memo?: string;
   privacy?: boolean;
+  agree?: boolean;
+  privacyAgree?: boolean;
+  agreement?: boolean;
   website?: string;
 };
 
@@ -64,11 +75,15 @@ export async function POST(request: Request) {
   }
 
   const name = clean(payload.name);
-  const phone = clean(payload.phone);
+  const phone = clean(payload.phone) || clean(payload.contact) || clean(payload.phoneNumber) || clean(payload.tel);
   const email = clean(payload.email);
-  const type = clean(payload.type) || "일반문의";
-  const message = clean(payload.message);
-  const privacy = payload.privacy === true;
+  const type = clean(payload.type) || clean(payload.category) || clean(payload.inquiryType) || "일반문의";
+  const message = clean(payload.message) || clean(payload.content) || clean(payload.inquiry) || clean(payload.memo);
+  const privacy =
+    payload.privacy === true ||
+    payload.agree === true ||
+    payload.privacyAgree === true ||
+    payload.agreement === true;
   const honeypot = clean(payload.website);
 
   if (honeypot) {
@@ -76,11 +91,14 @@ export async function POST(request: Request) {
   }
 
   if (!name || !phone || !message || !privacy) {
+    console.error("[contact] Missing required fields", {
+      receivedPayload: payload,
+      name,
+      phone,
+      message,
+      privacy
+    });
     return jsonError("Required fields are missing");
-  }
-
-  if (message.length < 5) {
-    return jsonError("Message is too short");
   }
 
   const clientKey = getClientKey(request);
