@@ -20,7 +20,7 @@ export default function BlogCard({ post }: { post: BlogPost }) {
         href={post.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="btn-secondary mt-auto w-full border-mint text-mint hover:bg-mint hover:text-white"
+        className="btn-secondary mt-auto w-full border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white"
       >
         블로그에서 보기
       </a>

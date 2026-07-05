@@ -15,14 +15,14 @@ export default function TourCard({ tour }: { tour: Tour }) {
         />
       </div>
       <div className="flex flex-1 flex-col p-5 sm:p-6">
-        <p className="text-xs font-bold text-mint">{tour.category}</p>
+        <p className="text-xs font-bold text-brand-blue">{tour.category}</p>
         <h3 className="mt-2 text-xl font-bold leading-7 text-navy">{tour.title}</h3>
         <p className="mt-3 text-sm leading-6 text-slate-600">{tour.summary}</p>
         <div className="mt-5">
           <p className="text-xs font-bold text-slate-500">추천 대상</p>
           <div className="mt-2 flex flex-wrap gap-2">
             {tour.recommendedFor.slice(0, 3).map((item) => (
-              <span key={item} className="rounded-full bg-mint-light px-3 py-1 text-xs font-semibold text-mint">
+              <span key={item} className="rounded-full bg-brand-surface px-3 py-1 text-xs font-semibold text-brand-blue">
                 {item}
               </span>
             ))}

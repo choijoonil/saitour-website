@@ -6,9 +6,17 @@ import type { GalleryImage } from "@/data/gallery";
 
 type TravelGalleryProps = {
   images: GalleryImage[];
+  eyebrow?: string;
+  title?: string;
+  description?: string;
 };
 
-export default function TravelGallery({ images }: TravelGalleryProps) {
+export default function TravelGallery({
+  images,
+  eyebrow = "실제 운영사진",
+  title = "현장에서 만나는 사이투어",
+  description = "DMZ, 서울, 공항픽업, 기업행사, 가이드 서비스까지 실제 운영 장면을 한눈에 확인해보세요."
+}: TravelGalleryProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const activeImage = activeIndex === null ? null : images[activeIndex];
 
@@ -49,37 +57,31 @@ export default function TravelGallery({ images }: TravelGalleryProps) {
   }, [activeIndex]);
 
   return (
-    <section className="section-y bg-white">
+    <section className="section-y bg-paper/45">
       <div className="container-px mx-auto max-w-7xl">
         <div className="mb-10 max-w-3xl">
-          <p className="eyebrow">여행 갤러리</p>
-          <h2 className="mt-4 text-3xl font-bold tracking-normal text-navy sm:text-4xl">
-            사이투어와 함께한 여행
-          </h2>
-          <p className="mt-4 text-base leading-7 text-slate-600 sm:text-lg">
-            외국인 한국여행부터 기업행사까지
-            <br className="hidden sm:block" />
-            다양한 여행의 순간을 만나보세요.
-          </p>
+          <p className="eyebrow">{eyebrow}</p>
+          <h2 className="mt-4 text-3xl font-bold tracking-normal text-navy sm:text-4xl">{title}</h2>
+          <p className="mt-4 text-base leading-7 text-slate-600 sm:text-lg">{description}</p>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-5">
           {images.map((image, index) => (
             <button
               key={image.id}
               type="button"
-              className="group relative aspect-[4/3] overflow-hidden rounded-2xl bg-paper text-left shadow-soft focus:outline-none focus:ring-2 focus:ring-mint focus:ring-offset-2"
+              className="group relative aspect-[4/3] overflow-hidden rounded-2xl bg-paper text-left shadow-soft focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-offset-2"
               onClick={() => setActiveIndex(index)}
-              aria-label={`${image.title} 확대 보기`}
+              aria-label={`${image.title} 사진 보기`}
             >
               <ManagedImage
                 src={image.src}
                 alt={image.alt}
                 fill
                 className="object-cover transition duration-300 group-hover:scale-[1.03]"
-                sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+                sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw"
               />
-              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/55 to-transparent px-4 pb-4 pt-10 text-sm font-bold text-white">
+              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/62 to-transparent px-4 pb-4 pt-10 text-sm font-bold text-white">
                 {image.title}
               </span>
             </button>
@@ -92,7 +94,7 @@ export default function TravelGallery({ images }: TravelGalleryProps) {
           className="fixed inset-0 z-[70] flex items-center justify-center bg-navy/88 px-5 py-8"
           role="dialog"
           aria-modal="true"
-          aria-label="여행 갤러리 확대 보기"
+          aria-label="운영사진 크게 보기"
         >
           <button
             type="button"

@@ -2,40 +2,71 @@ import Link from "next/link";
 import ContactCTA from "@/components/ContactCTA";
 import ManagedImage from "@/components/ManagedImage";
 import SectionTitle from "@/components/SectionTitle";
+import TravelGallery from "@/components/TravelGallery";
+import { galleryImages } from "@/data/gallery";
 import { heroImage } from "@/data/hero";
-import { imagePaths } from "@/data/images";
 import { representativeServices } from "@/data/services";
+import { saitourStats } from "@/constants/homepageStats";
 
 const whySaitourCards = [
   {
     icon: "calendar",
-    title: "맞춤 기획",
-    description: "고객의 목적, 인원, 예산에 맞춰 가장 효율적인 일정을 제안합니다."
+    title: "단독 맞춤 일정",
+    description: "단체의 목적과 인원에 맞춰 일정을 유연하게 구성합니다."
   },
   {
-    icon: "shield",
-    title: "현장 운영",
-    description: "공항 도착부터 일정 종료까지 현장에서 필요한 부분을 꼼꼼하게 관리합니다."
+    icon: "guide",
+    title: "영어·일본어 가이드",
+    description: "외국인 고객 응대에 필요한 전문 가이드 수배가 가능합니다."
+  },
+  {
+    icon: "car",
+    title: "공항픽업 가능",
+    description: "인천공항·김포공항 도착부터 호텔 이동까지 편안하게 연결합니다."
   },
   {
     icon: "users",
-    title: "전문 네트워크",
-    description: "전용차량, 식당, 가이드, 체험 프로그램까지 검증된 파트너와 함께합니다."
+    title: "기업행사 운영",
+    description: "기업 방문, 인센티브, VIP 의전 등 단체 행사를 지원합니다."
+  },
+  {
+    icon: "shield",
+    title: "노쇼핑 투어",
+    description: "불필요한 쇼핑 일정 없이 여행 목적에 집중합니다."
   },
   {
     icon: "message",
     title: "빠른 상담",
-    description: "전화, 이메일, 카카오 상담을 통해 문의부터 진행까지 신속하게 안내합니다."
+    description: "문의 내용을 확인 후 가능한 빠르게 회신드립니다."
   }
 ];
 
-const aboutKeywords = [
-  "외국인 한국여행",
-  "DMZ 투어",
-  "서울 시티투어",
-  "공항픽업",
-  "프라이빗 투어",
-  "통역 가이드"
+const howItWorksSteps = [
+  {
+    icon: "message",
+    title: "문의 접수",
+    description: "인원, 일정, 목적을 간단히 확인합니다."
+  },
+  {
+    icon: "users",
+    title: "맞춤 상담",
+    description: "고객 유형과 이동 동선을 함께 검토합니다."
+  },
+  {
+    icon: "calendar",
+    title: "일정 제안",
+    description: "투어, 차량, 가이드 구성을 제안합니다."
+  },
+  {
+    icon: "car",
+    title: "여행 진행",
+    description: "현장 상황에 맞춰 안정적으로 운영합니다."
+  },
+  {
+    icon: "shield",
+    title: "사후 지원",
+    description: "진행 후 필요한 내용을 확인하고 지원합니다."
+  }
 ];
 
 export default function Home() {
@@ -51,38 +82,41 @@ export default function Home() {
             className="object-cover object-center"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-navy/58" />
-          <div className="absolute inset-0 bg-gradient-to-r from-navy/80 via-navy/42 to-navy/18" />
+          <div className="absolute inset-0 bg-navy/62" />
+          <div className="absolute inset-0 bg-gradient-to-r from-navy/84 via-navy/48 to-navy/20" />
         </div>
 
-        <div className="container-px relative z-10 mx-auto flex min-h-[760px] max-w-7xl items-center pt-24 pb-20 sm:pt-28 lg:pt-32">
-          <div className="max-w-[960px]">
-            <p className="text-sm font-bold uppercase tracking-[0.24em] text-mint sm:text-base">
+        <div className="container-px relative z-10 mx-auto flex min-h-[760px] max-w-7xl items-center pt-28 pb-24 sm:pt-32 lg:pt-36">
+          <div className="max-w-[1080px]">
+            <p className="text-sm font-bold uppercase tracking-[0.24em] text-brand-green sm:text-base">
               SAITOUR · Always Good Buddy
             </p>
-            <h1 className="hero-title mt-7 max-w-[1040px] font-bold tracking-normal text-white">
-              <span className="block text-[2rem] leading-[1.15] sm:text-[2.65rem] lg:text-[3.25rem] xl:text-[3.65rem]">
+            <h1 className="hero-title mt-7 max-w-[1080px] font-bold tracking-normal text-white">
+              <span className="block text-[2.05rem] leading-[1.16] sm:text-[3.1rem] lg:text-[4.6rem] xl:text-[5.3rem]">
                 <span className="hero-nowrap">외국인을 위한</span>{" "}
                 <span className="hero-nowrap">한국여행</span>
               </span>
-              <span className="mt-2.5 block text-[1.75rem] font-semibold leading-[1.18] text-white/88 sm:text-[2.25rem] lg:mt-3 lg:text-[2.85rem] xl:text-[3.15rem]">
+              <span className="mt-3 block text-[1.08rem] font-semibold leading-[1.45] text-white/88 sm:mt-4 sm:text-[1.55rem] lg:text-[2.05rem] xl:text-[2.3rem]">
                 <span className="hero-nowrap">DMZ</span>{" "}
                 <span aria-hidden="true">·</span>{" "}
-                <span className="hero-nowrap">서울시티투어</span>
+                <span className="hero-nowrap">서울시티투어</span>{" "}
+                <span aria-hidden="true">·</span>{" "}
+                <span className="hero-nowrap">공항픽업</span>
               </span>
-              <span className="mt-5 block text-[2.55rem] leading-[1.08] sm:mt-6 sm:text-[4rem] lg:text-[5rem] xl:text-[5.45rem]">
-                <span className="hero-nowrap">사이투어가 함께 합니다.</span>
+              <span className="mt-4 block text-[1.85rem] leading-[1.18] sm:mt-5 sm:text-[2.75rem] lg:text-[3.55rem] xl:text-[4rem]">
+                <span className="hero-nowrap">사이투어가</span>{" "}
+                <span className="hero-nowrap">함께합니다.</span>
               </span>
             </h1>
-            <p className="mt-7 max-w-xl text-base leading-8 text-white/78 sm:mt-8 sm:text-lg sm:leading-9">
+            <p className="mt-8 max-w-2xl text-base leading-8 text-white/82 sm:mt-9 sm:text-lg sm:leading-9">
               외국인 한국여행부터 기업행사까지,
               <br className="hidden sm:block" />
               고객의 목적에 맞는 맞춤형 서비스를 제공합니다.
             </p>
-            <div className="mt-9 flex">
+            <div className="mt-10 flex">
               <Link
                 href="#contact"
-                className="inline-flex min-h-14 items-center justify-center rounded-full bg-mint px-8 text-base font-bold text-white shadow-[0_14px_34px_rgba(34,184,176,0.24)] transition duration-200 hover:-translate-y-0.5 hover:bg-mint-dark hover:shadow-[0_18px_42px_rgba(34,184,176,0.3)] focus:outline-none focus:ring-2 focus:ring-mint focus:ring-offset-2 focus:ring-offset-navy"
+                className="inline-flex min-h-14 items-center justify-center rounded-full bg-brand-mint px-8 text-base font-bold text-white shadow-[0_14px_34px_rgba(18,183,172,0.28)] transition duration-200 hover:-translate-y-0.5 hover:bg-brand-blue hover:shadow-[0_18px_42px_rgba(107,137,197,0.3)] focus:outline-none focus:ring-2 focus:ring-brand-mint focus:ring-offset-2 focus:ring-offset-navy"
               >
                 여행 문의하기
               </Link>
@@ -92,7 +126,7 @@ export default function Home() {
 
         <div className="pointer-events-none absolute inset-x-0 bottom-8 z-10 flex justify-center">
           <div className="flex flex-col items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-white/76">
-            <span>아래로</span>
+            <span>SCROLL</span>
             <span className="scroll-indicator h-8 w-px bg-white/70" />
           </div>
         </div>
@@ -104,7 +138,7 @@ export default function Home() {
             <SectionTitle
               eyebrow="SERVICE"
               title="대표 서비스"
-              description="외국인 한국여행부터 기업행사까지, 고객의 목적에 맞는 맞춤형 서비스를 제공합니다."
+              description="DMZ 투어부터 서울 시티투어, 공항픽업까지 외국인 한국여행에 필요한 서비스를 맞춤형으로 제공합니다."
             />
           </div>
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -122,16 +156,16 @@ export default function Home() {
                   sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                   style={{ objectPosition: service.imagePosition }}
                 />
-                <div className="absolute inset-0 bg-black/20 transition duration-300 group-hover:bg-black/24" />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-black/38 to-black/76 transition duration-300 group-hover:to-black/82" />
+                <div className="absolute inset-0 bg-black/24 transition duration-300 group-hover:bg-black/28" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/12 via-black/42 to-black/84 transition duration-300 group-hover:to-black/88" />
                 <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
-                  <p className="service-card-eyebrow text-[11px] font-bold uppercase tracking-[0.18em] drop-shadow-sm">
+                  <p className="service-card-eyebrow text-[10px] font-bold uppercase tracking-[0.2em] drop-shadow-sm sm:text-[11px]">
                     {service.english}
                   </p>
-                  <h3 className="service-card-title mt-2 text-xl font-bold leading-tight drop-shadow-sm sm:text-2xl">
+                  <h3 className="service-card-title mt-2 text-xl font-bold leading-tight drop-shadow-sm sm:text-[1.45rem]">
                     {service.title}
                   </h3>
-                  <p className="service-card-description mt-3 line-clamp-2 text-sm leading-6 drop-shadow-sm">
+                  <p className="service-card-description mt-2.5 line-clamp-2 text-sm leading-6 drop-shadow-sm">
                     {service.description}
                   </p>
                 </div>
@@ -146,22 +180,22 @@ export default function Home() {
           <div className="mx-auto mb-10 max-w-3xl text-center">
             <p className="eyebrow">WHY SAITOUR</p>
             <h2 className="mt-4 text-3xl font-bold tracking-normal text-navy sm:text-4xl">
-              왜 사이투어일까요?
+              왜 사이투어인가
             </h2>
             <p className="mt-4 text-base leading-7 text-slate-600 sm:text-lg">
-              일정 기획부터 차량, 가이드, 현장 운영까지
+              외국인 한국여행과 기업행사를 실제 운영 경험을 바탕으로
               <br className="hidden sm:block" />
-              고객의 여정이 편안하게 진행되도록 세심하게 준비합니다.
+              안전하고 유연하게 준비합니다.
             </p>
           </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {whySaitourCards.map((card) => (
-              <article key={card.title} className="card card-hover min-h-[230px]">
+              <article key={card.title} className="card card-hover min-h-[200px]">
                 <div className="icon-circle">
                   <WhyIcon type={card.icon} />
                 </div>
-                <h3 className="mt-6 text-xl font-bold text-navy">{card.title}</h3>
-                <p className="mt-4 text-sm leading-7 text-slate-600">{card.description}</p>
+                <h3 className="mt-5 text-lg font-bold text-navy sm:text-xl">{card.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-slate-600">{card.description}</p>
               </article>
             ))}
           </div>
@@ -169,44 +203,56 @@ export default function Home() {
       </section>
 
       <section className="section-y bg-white">
-        <div className="container-px mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-          <div className="max-w-[620px]">
-            <p className="eyebrow">About SAITOUR</p>
-            <h2 className="mt-4 text-[2.15rem] font-bold leading-[1.14] tracking-normal text-navy sm:text-[2.75rem] lg:text-[3.15rem]">
-              <span className="block whitespace-nowrap">고객의 여정을</span>
-              <span className="mt-1 block whitespace-nowrap">함께 설계하는</span>
-              <span className="mt-1 block whitespace-nowrap">여행 파트너</span>
+        <div className="container-px mx-auto max-w-7xl">
+          <div className="mb-10 max-w-3xl">
+            <p className="eyebrow">SAITOUR IN NUMBERS</p>
+            <h2 className="mt-4 text-3xl font-bold tracking-normal text-navy sm:text-4xl">
+              숫자로 보는 사이투어
             </h2>
-            <div className="mt-7 max-w-[590px] space-y-3.5 text-[15px] leading-8 text-slate-600 sm:text-[17px] sm:leading-9">
-              <p className="break-keep">
-                사이투어는 외국인 한국여행부터 기업행사까지, 고객의 목적에 맞는 맞춤형 서비스를 제공합니다.
-              </p>
-              <p className="break-keep">
-                공항 픽업부터 전용차량, 전문 가이드, 일정 운영까지 여행의 시작부터 마무리까지
-                세심하게 함께합니다.
-              </p>
-            </div>
-            <div className="mt-8 flex max-w-[560px] flex-wrap gap-2.5">
-              {aboutKeywords.map((keyword) => (
-                <span
-                  key={keyword}
-                  className="inline-flex min-h-9 items-center rounded-full bg-mint-light px-4 text-[13px] font-bold leading-none text-mint sm:text-sm"
-                >
-                  {keyword}
-                </span>
-              ))}
-            </div>
           </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {saitourStats.map((stat) => (
+              <article key={stat.label} className="rounded-[20px] border border-slate-100 bg-white p-6 shadow-soft">
+                <p className="text-[2.35rem] font-bold leading-none tracking-normal text-brand-blue sm:text-[2.7rem]">
+                  {stat.value}
+                </p>
+                <p className="mt-4 text-sm font-bold text-slate-600">{stat.label}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
 
-          <div className="relative aspect-[4/3] overflow-hidden rounded-[20px] bg-paper shadow-soft sm:aspect-[16/10]">
-            <ManagedImage
-              src={imagePaths.about.main}
-              alt="사이투어 인바운드 여행 서비스"
-              fill
-              className="object-cover"
-              sizes="(min-width: 1024px) 50vw, 100vw"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-navy/24 via-transparent to-transparent" />
+      <TravelGallery
+        images={galleryImages}
+        eyebrow="실제 운영사진"
+        title="현장에서 만나는 사이투어"
+        description="DMZ, 서울, 공항픽업, 기업행사, 가이드 서비스까지 실제 운영 장면을 한눈에 확인해보세요."
+      />
+
+      <section className="section-y bg-white">
+        <div className="container-px mx-auto max-w-7xl">
+          <div className="mx-auto mb-10 max-w-3xl text-center">
+            <p className="eyebrow">HOW IT WORKS</p>
+            <h2 className="mt-4 text-3xl font-bold tracking-normal text-navy sm:text-4xl">
+              고객 이용 절차
+            </h2>
+          </div>
+          <div className="grid gap-4 md:grid-cols-5">
+            {howItWorksSteps.map((step, index) => (
+              <article key={step.title} className="rounded-[20px] border border-slate-100 bg-white p-5 shadow-soft">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-xs font-bold uppercase tracking-[0.16em] text-brand-blue">
+                    STEP {index + 1}
+                  </span>
+                  <span className="icon-circle h-10 w-10">
+                    <WhyIcon type={step.icon} />
+                  </span>
+                </div>
+                <h3 className="mt-5 text-lg font-bold text-navy">{step.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-slate-600">{step.description}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>

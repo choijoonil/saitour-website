@@ -1,79 +1,66 @@
 # SAITOUR Brand Guide
 
-Source: `ai.ai` original Illustrator vector logo.
+Source: `png.png` SAITOUR original logo image.
 
-The official SAITOUR letter colors are extracted from the vector fill colors of the outlined `SAITOUR` wordmark. Do not create alternate logo colors, gradients, opacity variants, or saturation-adjusted versions for the wordmark.
+The official SAITOUR logo colors are extracted from the provided logo image and managed through shared brand tokens. Do not create alternate logo colors, gradients, opacity variants, or saturation-adjusted versions for the wordmark.
 
-## Logo Colors
+## Core Brand Colors
 
-| Letter | Vector Fill CMYK | HEX | RGB | HSL |
-| --- | --- | --- | --- | --- |
-| S | `0.607843 0.419608 0 0` | `#6494FF` | `rgb(100, 148, 255)` | `hsl(221 100% 70%)` |
-| A | `0.376471 0.035294 1 0` | `#9FF600` | `rgb(159, 246, 0)` | `hsl(81 100% 48%)` |
-| I | `0.607843 0.419608 0 0` | `#6494FF` | `rgb(100, 148, 255)` | `hsl(221 100% 70%)` |
-| T | `0 0.741176 0.603922 0` | `#FF4265` | `rgb(255, 66, 101)` | `hsl(349 100% 63%)` |
-| O | `0.003922 0.27451 1 0` | `#FEB900` | `rgb(254, 185, 0)` | `hsl(44 100% 50%)` |
-| U | `0 0.741176 0.603922 0` | `#FF4265` | `rgb(255, 66, 101)` | `hsl(349 100% 63%)` |
-| R | `0 0.741176 0.603922 0` | `#FF4265` | `rgb(255, 66, 101)` | `hsl(349 100% 63%)` |
+| Role | Token | HEX | RGB |
+| --- | --- | --- | --- |
+| Blue | `brand.blue` / `--brand-blue` | `#6B89C5` | `rgb(107, 137, 197)` |
+| Green | `brand.green` / `--brand-green` | `#A6CE39` | `rgb(166, 206, 57)` |
+| Yellow | `brand.yellow` / `--brand-yellow` | `#FDB813` | `rgb(253, 184, 19)` |
+| Red | `brand.red` / `--brand-red` | `#F2685E` | `rgb(242, 104, 94)` |
+| Orange | `brand.orange` / `--brand-orange` | `#F2685E` | `rgb(242, 104, 94)` |
+| Mint | `brand.mint` / `--brand-mint` | `#12B7AC` | `rgb(18, 183, 172)` |
+
+## Logo Rules
+
+| Logo Part | Token | HEX |
+| --- | --- | --- |
+| Circle border | `brand.blue` | `#6B89C5` |
+| Inner ㅅ shape | `brand.green` | `#A6CE39` |
+| Inner ㅇ shape | `brand.yellow` | `#FDB813` |
+| S | `brand.blue` | `#6B89C5` |
+| A | `brand.green` | `#A6CE39` |
+| I | `brand.blue` | `#6B89C5` |
+| T | `brand.red` | `#F2685E` |
+| O | `brand.yellow` | `#FDB813` |
+| U | `brand.orange` | `#F2685E` |
+| R | `brand.red` | `#F2685E` |
+
+Note: In the supplied PNG, the U fill is extracted as the same coral-orange color used by T/R. The `brand.orange` token remains separate so the logo rule is explicit and maintainable.
 
 ## CSS Design Tokens
 
 ```css
 :root {
-  --brand-s: #6494FF;
-  --brand-a: #9FF600;
-  --brand-i: #6494FF;
-  --brand-t: #FF4265;
-  --brand-o: #FEB900;
-  --brand-u: #FF4265;
-  --brand-r: #FF4265;
+  --brand-blue: #6B89C5;
+  --brand-green: #A6CE39;
+  --brand-yellow: #FDB813;
+  --brand-red: #F2685E;
+  --brand-orange: #F2685E;
+  --brand-mint: #12B7AC;
+
+  --brand-s: var(--brand-blue);
+  --brand-a: var(--brand-green);
+  --brand-i: var(--brand-blue);
+  --brand-t: var(--brand-red);
+  --brand-o: var(--brand-yellow);
+  --brand-u: var(--brand-orange);
+  --brand-r: var(--brand-red);
 }
 ```
 
-## Brand System
-
-### Primary Brand Color
-
-`--brand-primary: var(--brand-s)`  
-Use for navigation active states, core links, primary icon color, focus rings, and key accents.
-
-### Secondary Brand Color
-
-`--brand-secondary: var(--brand-a)`  
-Use sparingly for positive highlights, success states, and secondary brand accents.
-
-### Accent Colors
-
-`--brand-accent-pink: var(--brand-t)`  
-Use for energetic emphasis, selected highlights, and error states.
-
-`--brand-accent-orange: var(--brand-o)`  
-Use for warm emphasis, warning states, and small badges.
-
-### Neutral Colors
-
-These are the existing website neutrals used to support the official logo colors:
-
-| Role | Token | Value |
-| --- | --- | --- |
-| Background | `--brand-background` | `#ffffff` |
-| Surface | `--brand-surface` | `#F5F7FA` |
-| Border | `--brand-border` | `#E2E8F0` |
-| Text | `--brand-text` | `#0F172A` |
-| Body Text | `--brand-body` | `#333333` |
-
-### Status Colors
-
-| Role | Token | Value |
-| --- | --- | --- |
-| Success | `--brand-success` | `var(--brand-a)` / `#9FF600` |
-| Warning | `--brand-warning` | `var(--brand-o)` / `#FEB900` |
-| Error | `--brand-error` | `var(--brand-t)` / `#FF4265` |
-
 ## Usage Rules
 
-Use the exact logo tokens for the `SAITOUR` wordmark in Header, Footer, and any future brand lockup.
+Use `constants/brandColors.ts` as the source of truth in TypeScript components.
 
-Use `brand-primary`, `brand-secondary`, `brand-accent-pink`, and `brand-accent-orange` for Hero accents, buttons, links, hover states, icons, badges, and other UI highlights.
+Use the exact logo tokens for the `SAITOUR` wordmark in Header, Footer, Mobile Menu, Hero, Contact, and any future brand lockup.
 
-Do not use gradients, opacity changes, saturation changes, or handmade alternate HEX values for the `SAITOUR` wordmark.
+Use `brand-mint` as the official solid SAITOUR identity color for broad brand surfaces, strong CTAs, and single-color brand applications.
+
+Use `brand-blue`, `brand-green`, `brand-yellow`, `brand-red`, `brand-orange`, and `brand-mint` for accents, buttons, links, hover states, icons, badges, and focus rings.
+
+Do not use legacy non-logo accent colors for SAITOUR brand accents.

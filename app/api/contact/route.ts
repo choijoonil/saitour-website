@@ -2,31 +2,62 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
 type ContactPayload = {
-  name?: string;
-  phone?: string;
-  contact?: string;
-  phoneNumber?: string;
-  tel?: string;
-  email?: string;
-  type?: string;
-  category?: string;
-  inquiryType?: string;
-  message?: string;
-  content?: string;
-  inquiry?: string;
-  memo?: string;
-  privacy?: boolean;
-  agree?: boolean;
-  privacyAgree?: boolean;
-  agreement?: boolean;
-  website?: string;
+  name?: unknown;
+  phone?: unknown;
+  contact?: unknown;
+  phoneNumber?: unknown;
+  tel?: unknown;
+  email?: unknown;
+  type?: unknown;
+  category?: unknown;
+  inquiryType?: unknown;
+  message?: unknown;
+  content?: unknown;
+  inquiry?: unknown;
+  memo?: unknown;
+  privacy?: unknown;
+  agree?: unknown;
+  privacyAgree?: unknown;
+  agreement?: unknown;
+  website?: unknown;
 };
 
 const requestHistory = new Map<string, number>();
 const RATE_LIMIT_MS = 15_000;
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const phonePattern = /^[0-9+\-\s()]+$/;
+const allowedInquiryTypes = new Set([
+  "DMZ 투어",
+  "서울 시티투어",
+  "공항픽업",
+  "기업행사",
+  "맞춤여행",
+  "가이드 문의",
+  "일반문의"
+]);
+
+function stripDangerousHtml(value: string) {
+  return value
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "")
+    .replace(/<\/?script\b[^>]*>/gi, "")
+    .replace(/\son\w+\s*=\s*(["']).*?\1/gi, "")
+    .replace(/\son\w+\s*=\s*[^\s>]+/gi, "");
+}
 
 function clean(value: unknown) {
-  return typeof value === "string" ? value.trim() : "";
+  return typeof value === "string" ? stripDangerousHtml(value.trim()) : "";
+}
+
+function isConsentAccepted(value: unknown) {
+  if (value === true) {
+    return true;
+  }
+
+  return typeof value === "string" && ["true", "on", "1"].includes(value.toLowerCase());
+}
+
+function normalizeInquiryType(value: string) {
+  return allowedInquiryTypes.has(value) ? value : "일반문의";
 }
 
 function getClientKey(request: Request) {
@@ -77,14 +108,17 @@ export async function POST(request: Request) {
   const name = clean(payload.name);
   const phone = clean(payload.phone) || clean(payload.contact) || clean(payload.phoneNumber) || clean(payload.tel);
   const email = clean(payload.email);
-  const type = clean(payload.type) || clean(payload.category) || clean(payload.inquiryType) || "일반문의";
+  const rawType = clean(payload.type) || clean(payload.category) || clean(payload.inquiryType);
+  const type = normalizeInquiryType(rawType);
   const message = clean(payload.message) || clean(payload.content) || clean(payload.inquiry) || clean(payload.memo);
   const privacy =
-    payload.privacy === true ||
-    payload.agree === true ||
-    payload.privacyAgree === true ||
-    payload.agreement === true;
+    isConsentAccepted(payload.privacy) ||
+    isConsentAccepted(payload.agree) ||
+    isConsentAccepted(payload.privacyAgree) ||
+    isConsentAccepted(payload.agreement);
   const honeypot = clean(payload.website);
+  const phoneDigitCount = (phone.match(/\d/g) || []).length;
+  const replyToEmail = email && emailPattern.test(email) ? email : undefined;
 
   if (honeypot) {
     return NextResponse.json({ ok: true });
@@ -99,6 +133,39 @@ export async function POST(request: Request) {
       privacy
     });
     return jsonError("Required fields are missing");
+  }
+
+  if (name.length > 50) {
+    console.error("[contact] Name is too long", {
+      receivedPayload: payload,
+      nameLength: name.length
+    });
+    return jsonError("Name is too long");
+  }
+
+  if (phone.length > 30 || !phonePattern.test(phone) || phoneDigitCount < 5) {
+    console.error("[contact] Invalid phone", {
+      receivedPayload: payload,
+      phone,
+      phoneDigitCount
+    });
+    return jsonError("Invalid phone");
+  }
+
+  if (message.length < 4) {
+    console.error("[contact] Message is too short", {
+      receivedPayload: payload,
+      message
+    });
+    return jsonError("Message is too short");
+  }
+
+  if (message.length > 2000) {
+    console.error("[contact] Message is too long", {
+      receivedPayload: payload,
+      messageLength: message.length
+    });
+    return jsonError("Message is too long");
   }
 
   const clientKey = getClientKey(request);
@@ -150,7 +217,7 @@ export async function POST(request: Request) {
       to: [toEmail],
       subject,
       text: body,
-      replyTo: email || undefined
+      ...(replyToEmail ? { replyTo: replyToEmail } : {})
     });
 
     if (error) {

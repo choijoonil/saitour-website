@@ -10,6 +10,12 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
+          blue: "var(--brand-blue)",
+          green: "var(--brand-green)",
+          yellow: "var(--brand-yellow)",
+          red: "var(--brand-red)",
+          orange: "var(--brand-orange)",
+          mint: "var(--brand-mint)",
           primary: "var(--brand-primary)",
           secondary: "var(--brand-secondary)",
           accent: {
@@ -33,11 +39,6 @@ const config: Config = {
             u: "var(--brand-u)",
             r: "var(--brand-r)"
           }
-        },
-        mint: {
-          DEFAULT: "#22B8B0",
-          dark: "#159C96",
-          light: "#E7F8F7"
         },
         navy: "#0F172A",
         paper: "#F5F7FA",
