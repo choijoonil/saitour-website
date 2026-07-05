@@ -70,7 +70,7 @@ export default function TravelGallery({
             <button
               key={image.id}
               type="button"
-              className="group relative aspect-[4/3] overflow-hidden rounded-2xl bg-paper text-left shadow-soft focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-offset-2"
+              className="group relative aspect-[16/10] overflow-hidden rounded-2xl bg-paper text-left shadow-soft focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-offset-2 sm:aspect-[4/3]"
               onClick={() => setActiveIndex(index)}
               aria-label={`${image.title} 사진 보기`}
             >
@@ -78,7 +78,7 @@ export default function TravelGallery({
                 src={image.src}
                 alt={image.alt}
                 fill
-                className="object-cover transition duration-300 group-hover:scale-[1.03]"
+                className="object-cover object-center transition duration-300 group-hover:scale-[1.03]"
                 sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw"
               />
               <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/62 to-transparent px-4 pb-4 pt-10 text-sm font-bold text-white">
@@ -103,8 +103,15 @@ export default function TravelGallery({
             aria-label="갤러리 닫기"
           />
           <div className="relative z-10 w-full max-w-5xl">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-[20px] bg-black shadow-[0_24px_80px_rgba(0,0,0,0.35)] sm:aspect-[16/10]">
-              <ManagedImage src={activeImage.src} alt={activeImage.alt} fill className="object-cover" sizes="90vw" priority />
+            <div className="relative aspect-[4/3] max-h-[78vh] overflow-hidden rounded-[20px] bg-black shadow-[0_24px_80px_rgba(0,0,0,0.35)] sm:aspect-[16/10]">
+              <ManagedImage
+                src={activeImage.src}
+                alt={activeImage.alt}
+                fill
+                className="object-contain object-center"
+                sizes="90vw"
+                priority
+              />
             </div>
             <div className="mt-4 flex items-center justify-between gap-4 text-white">
               <div>
