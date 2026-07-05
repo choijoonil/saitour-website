@@ -1,6 +1,6 @@
 export const saitourStats = [
   {
-    value: "2019+",
+    value: "2018+",
     label: "설립"
   },
   {

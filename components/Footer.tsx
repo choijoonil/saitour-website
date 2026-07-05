@@ -17,7 +17,10 @@ export default function Footer() {
         <div>
           <h2 className="text-sm font-semibold text-white">회사 정보</h2>
           <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-300">
+            <li>대표자 최준일</li>
             <li>서울시 강서구 마곡중앙로 161-17, 712호</li>
+            <li>통신판매업 신고번호 제2019-서울강서-1795호</li>
+            <li>관광사업등록번호 제2018-000032호</li>
             <li>
               <a href={CONTACT_PHONE_HREF} className="transition hover:text-brand-primary">
                 {CONTACT_PHONE_DISPLAY}

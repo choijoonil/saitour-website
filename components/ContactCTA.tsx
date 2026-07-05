@@ -16,7 +16,7 @@ type ContactFormPayload = {
 
 const inquiryTypes = ["DMZ 투어", "서울 시티투어", "공항픽업", "기업행사", "맞춤여행", "가이드 문의", "일반문의"];
 const officeAddress = "서울시 강서구 마곡중앙로 161-17, 712호";
-const naverMapUrl = "https://map.naver.com/p/search/서울시%20강서구%20마곡중앙로%20161-17%20712호";
+const naverMapUrl = "https://map.naver.com/p/search/사이투어";
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phonePattern = /^[0-9+\-\s()]+$/;
 
@@ -158,49 +158,40 @@ export default function ContactCTA() {
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="space-y-6">
-            <div className="card sm:p-8">
-              <h3 className="text-2xl font-bold text-navy">오시는 길</h3>
-              <div className="mt-6 space-y-6">
-                <div className="border-b border-slate-100 pb-5">
-                  <p className="text-sm font-semibold text-slate-500">주소</p>
-                  <p className="mt-2 text-lg font-bold leading-7 text-navy">{officeAddress}</p>
+          <div>
+            <div className="card h-full sm:p-8">
+              <div className="rounded-2xl border border-dashed border-brand-blue/35 bg-white p-6">
+                <p className="text-sm font-bold text-brand-blue">MAP</p>
+                <h3 className="mt-3 text-2xl font-bold text-navy">오시는 길</h3>
+                <div className="mt-6 space-y-6">
+                  <div className="border-b border-slate-100 pb-5">
+                    <p className="text-sm font-semibold text-slate-500">주소</p>
+                    <p className="mt-2 text-lg font-bold leading-7 text-navy">{officeAddress}</p>
+                  </div>
+                  <div className="border-b border-slate-100 pb-5">
+                    <p className="text-sm font-semibold text-slate-500">위치 안내</p>
+                    <p className="mt-2 text-base leading-7 text-slate-600">
+                      마곡나루역 인근에 위치해 있습니다.
+                      <br />
+                      방문 상담은 사전 예약 후 안내드립니다.
+                    </p>
+                    <p className="mt-3 text-xs font-semibold text-slate-400">마곡나루역 인근 · 방문 상담 사전 예약제</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-slate-500">상담 방식</p>
+                    <p className="mt-2 text-base font-semibold leading-7 text-navy">
+                      방문 상담 / 전화 상담 / 이메일 상담 가능
+                    </p>
+                  </div>
                 </div>
-                <div className="border-b border-slate-100 pb-5">
-                  <p className="text-sm font-semibold text-slate-500">위치 안내</p>
-                  <p className="mt-2 text-base leading-7 text-slate-600">
-                    마곡나루역 인근에 위치해 있습니다.
-                    <br />
-                    방문 상담은 사전 예약 후 안내드립니다.
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-slate-500">상담 방식</p>
-                  <p className="mt-2 text-base font-semibold leading-7 text-navy">
-                    방문 상담 / 전화 상담 / 이메일 상담 가능
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="card min-h-[220px] overflow-hidden sm:p-8">
-              <div className="flex h-full min-h-[210px] flex-col justify-between rounded-2xl border border-dashed border-brand-blue/35 bg-white p-6">
-                <div>
-                  <p className="text-sm font-bold text-brand-blue">MAP</p>
-                  <h3 className="mt-3 text-xl font-bold text-navy">사이투어 위치</h3>
-                  <p className="mt-3 text-sm leading-6 text-slate-600">{officeAddress}</p>
-                </div>
-                <div className="mt-8">
-                  <p className="text-xs font-semibold text-slate-400">마곡나루역 인근 · 방문 상담 사전 예약제</p>
-                  <a
-                    href={naverMapUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-4 inline-flex min-h-10 items-center justify-center rounded-full border border-brand-blue px-4 text-sm font-bold text-brand-blue transition hover:bg-brand-blue hover:text-white focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-offset-2"
-                  >
-                    네이버지도 보기
-                  </a>
-                </div>
+                <a
+                  href={naverMapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-8 inline-flex min-h-10 items-center justify-center rounded-full border border-brand-blue px-4 text-sm font-bold text-brand-blue transition hover:bg-brand-blue hover:text-white focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-offset-2"
+                >
+                  네이버지도 보기
+                </a>
               </div>
             </div>
           </div>
