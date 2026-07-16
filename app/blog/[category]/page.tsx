@@ -51,9 +51,11 @@ export default async function BlogCategoryPage({ params }: BlogCategoryPageProps
             전체
           </Link>
           {blogCategories.map((item) => (
-            <Link
+            <a
               key={item.slug}
-              href={`/blog/${item.slug}`}
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
               aria-current={item.slug === slug ? "page" : undefined}
               className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
                 item.slug === slug
@@ -62,7 +64,7 @@ export default async function BlogCategoryPage({ params }: BlogCategoryPageProps
               }`}
             >
               {item.title}
-            </Link>
+            </a>
           ))}
         </nav>
 
@@ -74,7 +76,7 @@ export default async function BlogCategoryPage({ params }: BlogCategoryPageProps
           </div>
         ) : (
           <div className="rounded-[20px] border border-slate-100 bg-white p-8 text-sm leading-7 text-slate-600 shadow-soft">
-            이 카테고리의 게시글은 준비 중입니다. 곧 네이버 블로그 콘텐츠와 연결됩니다.
+            이 카테고리에 등록된 게시글이 없습니다.
           </div>
         )}
       </div>

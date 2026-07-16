@@ -13,17 +13,20 @@ export const blogCategories = [
   {
     slug: "airport-pickup",
     title: "공항픽업 안내",
-    description: "인천공항과 김포공항 도착 후 목적지까지 편안하게 이동하는 방법을 안내합니다."
+    description: "인천공항과 김포공항 도착 후 목적지까지 편안하게 이동하는 방법을 안내합니다.",
+    url: "https://blog.naver.com/cji6157/223517177859"
   },
   {
     slug: "seoul-city-tour",
-    title: "서울 시티투어",
-    description: "경복궁, 북촌, N서울타워 등 서울 주요 명소 여행 정보를 정리합니다."
+    title: "서울시티투어",
+    description: "경복궁, 북촌, N서울타워 등 서울 주요 명소 여행 정보를 정리합니다.",
+    url: "https://blog.naver.com/cji6157/223944511084"
   },
   {
     slug: "dmz-tour",
     title: "DMZ 투어",
-    description: "DMZ, 자유의 다리, 제3땅굴 등 비무장지대 투어 준비 정보를 안내합니다."
+    description: "DMZ, 자유의 다리, 제3땅굴 등 비무장지대 투어 준비 정보를 안내합니다.",
+    url: "https://blog.naver.com/cji6157/222886895145"
   }
 ] as const;
 
@@ -46,7 +49,7 @@ export const blogPosts: BlogPost[] = [
     title: "서울 시티투어",
     excerpt: "경복궁, 북촌, N서울타워 등 서울 주요 명소를 효율적으로 둘러보는 방법을 안내합니다.",
     date: "네이버 블로그",
-    category: "서울 시티투어",
+    category: "서울시티투어",
     categorySlug: "seoul-city-tour",
     url: "https://blog.naver.com/cji6157/223944511084"
   },

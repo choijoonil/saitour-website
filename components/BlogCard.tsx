@@ -1,13 +1,17 @@
-import Link from "next/link";
 import type { BlogPost } from "@/data/blog";
 
 export default function BlogCard({ post }: { post: BlogPost }) {
   return (
     <article className="card card-hover flex h-full flex-col">
       <div className="flex items-center justify-between gap-3 text-xs font-semibold text-slate-500">
-        <Link href={`/blog/${post.categorySlug}`} className="text-brand-primary transition hover:text-brand-accent-pink">
+        <a
+          href={post.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-brand-primary transition hover:text-brand-accent-pink"
+        >
           {post.category}
-        </Link>
+        </a>
         <time dateTime={post.date}>{post.date}</time>
       </div>
       <h3 className="mt-4 text-xl font-bold leading-7 text-navy">

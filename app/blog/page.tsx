@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import BlogCard from "@/components/BlogCard";
 import SectionTitle from "@/components/SectionTitle";
@@ -20,13 +19,15 @@ export default function BlogPage() {
         />
         <nav className="mb-8 mt-6 flex flex-wrap gap-2" aria-label="블로그 카테고리">
           {blogCategories.map((category) => (
-            <Link
+            <a
               key={category.slug}
-              href={`/blog/${category.slug}`}
+              href={category.url}
+              target="_blank"
+              rel="noopener noreferrer"
               className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-navy transition hover:border-brand-primary hover:text-brand-primary"
             >
               {category.title}
-            </Link>
+            </a>
           ))}
         </nav>
         <div className="grid gap-5 md:grid-cols-3">
