@@ -145,7 +145,7 @@ export default function Home() {
             {representativeServices.map((service) => (
               <Link
                 key={service.english}
-                href="#contact"
+                href={service.href}
                 className="group relative block aspect-video overflow-hidden rounded-[20px] bg-navy shadow-soft focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2"
               >
                 <ManagedImage
