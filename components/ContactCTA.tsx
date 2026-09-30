@@ -14,7 +14,16 @@ type ContactFormPayload = {
   privacy: boolean;
 };
 
-const inquiryTypes = ["DMZ 투어", "서울 시티투어", "공항픽업", "기업행사", "맞춤여행", "가이드 문의", "일반문의"];
+const inquiryTypes = [
+  "DMZ 투어",
+  "서울 시티투어",
+  "공항픽업 & 샌딩",
+  "공항픽업",
+  "기업행사",
+  "맞춤여행",
+  "가이드 문의",
+  "일반문의"
+];
 const officeAddress = "서울시 강서구 마곡중앙로 161-17, 712호";
 const naverMapUrl = "https://map.naver.com/p/search/사이투어";
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -75,10 +84,11 @@ function validateContactForm(payload: ContactFormPayload) {
   return errors;
 }
 
-export default function ContactCTA() {
+export default function ContactCTA({ defaultInquiryType = "" }: { defaultInquiryType?: string }) {
   const formRef = useRef<HTMLFormElement>(null);
   const [errors, setErrors] = useState<ContactFormErrors>({});
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
+  const selectedInquiryType = inquiryTypes.includes(defaultInquiryType) ? defaultInquiryType : "";
 
   const submitContactForm = async (form: HTMLFormElement) => {
     const payload = getContactFormPayload(form);
@@ -241,7 +251,7 @@ export default function ContactCTA() {
                 <span className="text-sm font-semibold text-slate-600">문의 유형</span>
                 <select
                   name="type"
-                  defaultValue=""
+                  defaultValue={selectedInquiryType}
                   className="mt-2 min-h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-navy outline-none transition focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20"
                 >
                   <option value="">문의 유형 선택</option>

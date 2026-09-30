@@ -29,6 +29,7 @@ const phonePattern = /^[0-9+\-\s()]+$/;
 const allowedInquiryTypes = new Set([
   "DMZ 투어",
   "서울 시티투어",
+  "공항픽업 & 샌딩",
   "공항픽업",
   "기업행사",
   "맞춤여행",
