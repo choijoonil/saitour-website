@@ -5,7 +5,8 @@ import { tours } from "@/data/tours";
 
 export const metadata: Metadata = {
   title: "서비스",
-  description: "외국인 한국여행부터 기업행사까지, 고객의 목적에 맞는 맞춤형 서비스를 확인하세요."
+  description: "외국인 한국여행부터 기업행사까지, 고객의 목적에 맞는 맞춤형 서비스를 확인하세요.",
+  alternates: { canonical: "/tours" }
 };
 
 export default function ToursPage() {
@@ -13,6 +14,7 @@ export default function ToursPage() {
     <section className="section-y bg-paper">
       <div className="container-px mx-auto max-w-7xl">
         <SectionTitle
+          headingLevel="h1"
           eyebrow="SERVICE"
           title="사이투어 서비스"
           description="외국인 한국여행부터 기업행사까지, 고객의 목적에 맞는 맞춤형 서비스를 제공합니다."

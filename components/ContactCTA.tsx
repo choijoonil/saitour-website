@@ -18,7 +18,6 @@ const inquiryTypes = [
   "DMZ 투어",
   "서울 시티투어",
   "공항픽업 & 샌딩",
-  "공항픽업",
   "기업행사",
   "맞춤여행",
   "가이드 문의",
@@ -84,7 +83,14 @@ function validateContactForm(payload: ContactFormPayload) {
   return errors;
 }
 
-export default function ContactCTA({ defaultInquiryType = "" }: { defaultInquiryType?: string }) {
+export default function ContactCTA({
+  defaultInquiryType = "",
+  headingLevel = "h2"
+}: {
+  defaultInquiryType?: string;
+  headingLevel?: "h1" | "h2";
+}) {
+  const Heading = headingLevel;
   const formRef = useRef<HTMLFormElement>(null);
   const [errors, setErrors] = useState<ContactFormErrors>({});
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
@@ -159,7 +165,7 @@ export default function ContactCTA({ defaultInquiryType = "" }: { defaultInquiry
       <div className="container-px mx-auto max-w-7xl">
         <div className="mx-auto mb-10 max-w-3xl text-center">
           <p className="eyebrow">CONTACT</p>
-          <h2 className="mt-4 text-3xl font-bold tracking-normal text-navy sm:text-4xl">여행 문의하기</h2>
+          <Heading className="mt-4 text-3xl font-bold tracking-normal text-navy sm:text-4xl">여행 문의하기</Heading>
           <p className="mt-4 text-base leading-7 text-slate-600 sm:text-lg">
             궁금하신 내용을 남겨주시면
             <br className="hidden sm:block" />
@@ -180,7 +186,7 @@ export default function ContactCTA({ defaultInquiryType = "" }: { defaultInquiry
                   </div>
                   <div className="border-b border-slate-100 pb-5">
                     <p className="text-sm font-semibold text-slate-500">위치 안내</p>
-                    <p className="mt-2 text-base leading-7 text-slate-600">
+                    <p className="mt-2 text-base leading-7 text-slate-600 [word-break:keep-all]">
                       마곡나루역 인근에 위치해 있습니다.
                       <br />
                       방문 상담은 사전 예약 후 안내드립니다.
@@ -189,7 +195,7 @@ export default function ContactCTA({ defaultInquiryType = "" }: { defaultInquiry
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-slate-500">상담 방식</p>
-                    <p className="mt-2 text-base font-semibold leading-7 text-navy">
+                    <p className="mt-2 text-base font-semibold leading-7 text-navy [word-break:keep-all]">
                       방문 상담 / 전화 상담 / 이메일 상담 가능
                     </p>
                   </div>

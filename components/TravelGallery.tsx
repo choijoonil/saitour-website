@@ -61,7 +61,7 @@ export default function TravelGallery({
       <div className="container-px mx-auto max-w-7xl">
         <div className="mb-10 max-w-3xl">
           <p className="eyebrow">{eyebrow}</p>
-          <h2 className="mt-4 text-3xl font-bold tracking-normal text-navy sm:text-4xl">{title}</h2>
+          <h2 className="mt-4 text-3xl font-bold tracking-normal text-navy [word-break:keep-all] sm:text-4xl">{title}</h2>
           <p className="mt-4 text-base leading-7 text-slate-600 sm:text-lg">{description}</p>
         </div>
 

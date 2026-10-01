@@ -28,11 +28,7 @@ export default function ServiceDetailContent({ service }: { service: ServiceDeta
         <div className="container-px mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.65fr_1.35fr] lg:gap-14">
           <div>
             <p className="eyebrow">ABOUT THE SERVICE</p>
-            <h2
-              className={`mt-3 text-3xl font-bold tracking-normal text-navy sm:text-4xl ${
-                service.slug === "guide-service" ? "[word-break:keep-all]" : ""
-              }`}
-            >
+            <h2 className="mt-3 text-3xl font-bold tracking-normal text-navy [word-break:keep-all] sm:text-4xl">
               {service.introductionTitle || "서비스 소개"}
             </h2>
           </div>
@@ -157,7 +153,7 @@ export default function ServiceDetailContent({ service }: { service: ServiceDeta
         <div className="container-px mx-auto flex max-w-7xl flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.18em] text-brand-green">PLAN WITH SAITOUR</p>
-            <h2 className="mt-3 text-2xl font-bold sm:text-3xl">
+            <h2 className="mt-3 text-2xl font-bold [word-break:keep-all] sm:text-3xl">
               {service.ctaTitle || `${service.title}, 상담부터 함께 준비합니다.`}
             </h2>
             {service.ctaDescription ? <p className="mt-3 max-w-3xl text-sm leading-7 text-white/75">{service.ctaDescription}</p> : null}
@@ -195,9 +191,9 @@ function ServiceHero({ service }: { service: ServiceDetail }) {
         </div>
         <div>
           <p className="eyebrow">{service.englishTitle}</p>
-          <h1 className="mt-3 text-3xl font-bold leading-tight text-navy sm:text-4xl lg:text-5xl">{service.title}</h1>
+          <h1 className="mt-3 text-3xl font-bold leading-tight text-navy [word-break:keep-all] sm:text-4xl lg:text-5xl">{service.title}</h1>
           <p
-            className={`mt-5 text-xl font-semibold leading-8 text-slate-800 ${
+            className={`mt-5 text-xl font-semibold leading-8 text-slate-800 [word-break:keep-all] ${
               service.slug === "dmz-tour" ? "whitespace-normal lg:whitespace-pre-line" : ""
             }`}
           >
@@ -263,7 +259,7 @@ function CardSection({
           {items.map((item) => (
             <article key={item.title} className="card h-full">
               {item.media ? <MediaSlot media={item.media} /> : null}
-              <h3 className="text-xl font-bold text-navy">{item.title}</h3>
+              <h3 className="text-xl font-bold text-navy [word-break:keep-all]">{item.title}</h3>
               <p className="mt-3 text-sm leading-7 text-slate-600">{item.description}</p>
               {hasItems(item.items) ? (
                 <ul className="mt-4 space-y-2 text-sm leading-6 text-slate-600">
@@ -570,7 +566,7 @@ function ImportantNoticeSection({ section }: { section: ServiceImportantNoticeSe
             <p className="text-sm font-bold uppercase tracking-[0.18em] text-white/85">
               {section.eyebrow || "IMPORTANT NOTICE"}
             </p>
-            <h2 className="mt-2 text-2xl font-bold sm:text-3xl">{section.title}</h2>
+            <h2 className="mt-2 text-2xl font-bold [word-break:keep-all] sm:text-3xl">{section.title}</h2>
             {section.description ? <p className="mt-3 max-w-3xl text-sm leading-7 text-white/90">{section.description}</p> : null}
           </div>
           <ol className="divide-y divide-brand-orange/15 px-6 sm:px-8">
@@ -602,7 +598,7 @@ function ListCard({
 }) {
   return (
     <article className="card h-full">
-      <h2 className="text-xl font-bold text-navy">{title}</h2>
+      <h2 className="text-xl font-bold text-navy [word-break:keep-all]">{title}</h2>
       <ul
         className={
           twoColumns
@@ -634,7 +630,7 @@ function NoticeSection({ items }: { items: string[] }) {
       <div className="container-px mx-auto max-w-4xl">
         <div className="rounded-[20px] border border-brand-yellow/40 bg-brand-yellow/10 p-6 sm:p-8">
           <p className="text-sm font-bold uppercase tracking-[0.14em] text-brand-orange">PLEASE NOTE</p>
-          <h2 className="mt-3 text-2xl font-bold text-navy">이용 시 유의사항</h2>
+          <h2 className="mt-3 text-2xl font-bold text-navy [word-break:keep-all]">이용 시 유의사항</h2>
           <ul className="mt-5 space-y-3 text-sm leading-7 text-slate-700">
             {items.map((item) => (
               <li key={item} className="flex gap-3">
@@ -653,7 +649,7 @@ function SectionHeading({ eyebrow, title, light = false }: { eyebrow: string; ti
   return (
     <div className="mb-9 max-w-3xl">
       <p className={`text-sm font-bold uppercase tracking-[0.18em] ${light ? "text-brand-green" : "text-brand-blue"}`}>{eyebrow}</p>
-      <h2 className={`mt-3 text-3xl font-bold tracking-normal sm:text-4xl ${light ? "text-white" : "text-navy"}`}>{title}</h2>
+      <h2 className={`mt-3 text-3xl font-bold tracking-normal [word-break:keep-all] sm:text-4xl ${light ? "text-white" : "text-navy"}`}>{title}</h2>
     </div>
   );
 }

@@ -16,8 +16,8 @@ const whySaitourCards = [
   },
   {
     icon: "guide",
-    title: "영어·일본어 가이드",
-    description: "외국인 고객 응대에 필요한 전문 가이드 수배가 가능합니다."
+    title: "영어·일본어·중국어 가이드",
+    description: "여행 목적과 일정에 맞는 외국어 가이드 서비스를 상담합니다."
   },
   {
     icon: "car",
@@ -27,7 +27,7 @@ const whySaitourCards = [
   {
     icon: "users",
     title: "기업행사 운영",
-    description: "기업 방문, 인센티브, VIP 의전 등 단체 행사를 지원합니다."
+    description: "고객이 확정한 행사 일정에 맞춰 차량, 가이드·통역, 이동과 부대 일정을 지원합니다."
   },
   {
     icon: "shield",

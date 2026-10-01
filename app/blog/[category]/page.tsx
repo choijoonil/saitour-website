@@ -25,7 +25,8 @@ export async function generateMetadata({ params }: BlogCategoryPageProps): Promi
 
   return {
     title: `${category.title} 블로그`,
-    description: category.description
+    description: category.description,
+    alternates: { canonical: `/blog/${slug}` }
   };
 }
 
@@ -42,7 +43,7 @@ export default async function BlogCategoryPage({ params }: BlogCategoryPageProps
   return (
     <section className="section-y bg-paper">
       <div className="container-px mx-auto max-w-7xl">
-        <SectionTitle eyebrow="BLOG" title={category.title} description={category.description} />
+        <SectionTitle headingLevel="h1" eyebrow="BLOG" title={category.title} description={category.description} />
         <nav className="mb-8 mt-6 flex flex-wrap gap-2" aria-label="블로그 카테고리">
           <Link
             href="/blog"

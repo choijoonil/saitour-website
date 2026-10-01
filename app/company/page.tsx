@@ -6,7 +6,8 @@ import { imagePaths } from "@/data/images";
 
 export const metadata: Metadata = {
   title: "회사소개",
-  description: "외국인 한국여행부터 기업행사까지 맞춤형 서비스를 제공하는 사이투어를 소개합니다."
+  description: "외국인 한국여행부터 기업행사까지 맞춤형 서비스를 제공하는 사이투어를 소개합니다.",
+  alternates: { canonical: "/company" }
 };
 
 const philosophy = [
@@ -100,7 +101,7 @@ export default function CompanyPage() {
               </div>
               <div className="flex justify-between gap-4">
                 <dt className="font-semibold text-slate-800">주소</dt>
-                <dd className="text-right">서울시 강서구 마곡중앙로 161-17, 712호</dd>
+                <dd className="text-right [word-break:keep-all]">서울시 강서구 마곡중앙로 161-17, 712호</dd>
               </div>
               <div className="flex justify-between gap-4">
                 <dt className="font-semibold text-slate-800">전화</dt>

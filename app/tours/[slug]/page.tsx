@@ -24,6 +24,7 @@ export async function generateMetadata({ params }: TourDetailPageProps): Promise
   return {
     title: service.title,
     description: service.summary,
+    alternates: { canonical: `/tours/${slug}` },
     openGraph: {
       title: `${service.title} | 사이투어`,
       description: service.summary,

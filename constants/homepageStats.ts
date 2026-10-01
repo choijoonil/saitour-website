@@ -1,6 +1,6 @@
 export const saitourStats = [
   {
-    value: "2018+",
+    value: "2018",
     label: "설립"
   },
   {
@@ -12,7 +12,7 @@ export const saitourStats = [
     label: "공항 픽업"
   },
   {
-    value: "1000+",
+    value: "1,000+",
     label: "투어 진행"
   }
 ] as const;

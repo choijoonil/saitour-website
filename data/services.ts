@@ -50,17 +50,17 @@ export const representativeServices: RepresentativeService[] = [
   {
     href: "/tours/guide-service",
     english: "GUIDE SERVICE",
-    title: "통역 가이드",
-    description: "영어·일본어·중국어 가이드 수배가 가능합니다.",
+    title: "외국어 전문 가이드",
+    description: "영어·일본어·중국어로 여행 목적과 일정에 맞는 가이드 서비스를 상담합니다.",
     image: imagePaths.services.guideService,
-    imageAlt: "통역 가이드 서비스",
+    imageAlt: "외국어 전문 가이드 서비스",
     imagePosition: "center"
   },
   {
     href: "/tours/corporate-events",
     english: "CORPORATE EVENTS",
     title: "기업행사",
-    description: "기업 방문, 인센티브, 국제행사, 단체 운영을 지원합니다.",
+    description: "고객이 확정한 행사 일정에 맞춰 차량, 가이드·통역, 이동과 부대 일정을 지원합니다.",
     image: imagePaths.services.corporateEvents,
     imageAlt: "기업행사 운영 서비스",
     imagePosition: "center"

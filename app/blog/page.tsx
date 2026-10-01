@@ -6,7 +6,8 @@ import { blogCategories, blogPosts } from "@/data/blog";
 
 export const metadata: Metadata = {
   title: "블로그",
-  description: "한국 여행 준비에 필요한 정보를 정리한 사이투어 블로그입니다."
+  description: "한국 여행 준비에 필요한 정보를 정리한 사이투어 블로그입니다.",
+  alternates: { canonical: "/blog" }
 };
 
 export default function BlogPage() {
@@ -14,6 +15,7 @@ export default function BlogPage() {
     <section className="section-y bg-paper">
       <div className="container-px mx-auto max-w-7xl">
         <SectionTitle
+          headingLevel="h1"
           eyebrow="BLOG"
           title="사이투어 블로그"
           description="여행 준비에 필요한 정보와 운영 이야기를 네이버 블로그에서 확인해보세요."
