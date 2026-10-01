@@ -14,6 +14,10 @@ export type ServiceMediaSlot = {
   src?: string;
   alt: string;
   placeholder?: string;
+  credit?: string;
+  creditUrl?: string;
+  license?: string;
+  licenseUrl?: string;
   fit?: "cover" | "contain";
   width?: number;
   height?: number;
@@ -57,6 +61,13 @@ export type ServiceChecklistSection = {
   items: string[];
 };
 
+export type ServiceImportantNoticeSection = {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  items: string[];
+};
+
 export type ServiceDetail = {
   slug: string;
   category: string;
@@ -80,6 +91,9 @@ export type ServiceDetail = {
   itinerary?: ServiceItineraryStep[];
   itineraryTitle?: string;
   itineraryRoomy?: boolean;
+  itineraryNotes?: string[];
+  itineraryColumns?: 3 | 5;
+  importantNotice?: ServiceImportantNoticeSection;
   highlights?: ServiceContentCard[];
   vehicleInfo?: ServiceContentCard[];
   vehicleInfoTitle?: string;
@@ -89,6 +103,8 @@ export type ServiceDetail = {
   usageInfoColumns?: 2 | 3;
   included?: string[];
   excluded?: string[];
+  includedTitle?: string;
+  excludedTitle?: string;
   notices?: string[];
   reviews?: ServiceReview[];
   faq?: ServiceFaq[];

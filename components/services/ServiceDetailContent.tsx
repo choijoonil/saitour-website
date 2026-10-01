@@ -5,6 +5,7 @@ import type {
   ServiceChecklistSection,
   ServiceContentCard,
   ServiceDetail,
+  ServiceImportantNoticeSection,
   ServiceItineraryStep,
   ServiceMediaSlot,
   ServiceQuickInfo,
@@ -58,8 +59,15 @@ export default function ServiceDetailContent({ service }: { service: ServiceDeta
         />
       ) : null}
       {hasItems(service.itinerary) ? (
-        <ItinerarySection items={service.itinerary} title={service.itineraryTitle} roomy={service.itineraryRoomy} />
+        <ItinerarySection
+          items={service.itinerary}
+          title={service.itineraryTitle}
+          roomy={service.itineraryRoomy}
+          notes={service.itineraryNotes}
+          columns={service.itineraryColumns}
+        />
       ) : null}
+      {service.importantNotice ? <ImportantNoticeSection section={service.importantNotice} /> : null}
       {hasItems(service.highlights) ? (
         <CardSection eyebrow="HIGHLIGHTS" title="주요 방문지와 테마" items={service.highlights} background="white" />
       ) : null}
@@ -76,7 +84,12 @@ export default function ServiceDetailContent({ service }: { service: ServiceDeta
       ) : null}
       {service.checklist ? <ChecklistSection section={service.checklist} /> : null}
       {hasItems(service.included) || hasItems(service.excluded) ? (
-        <IncludedSection included={service.included} excluded={service.excluded} />
+        <IncludedSection
+          included={service.included}
+          excluded={service.excluded}
+          includedTitle={service.includedTitle}
+          excludedTitle={service.excludedTitle}
+        />
       ) : null}
       {hasItems(service.notices) ? <NoticeSection items={service.notices} /> : null}
       {hasItems(service.reviews) ? (
@@ -151,7 +164,13 @@ function ServiceHero({ service }: { service: ServiceDetail }) {
         <div>
           <p className="eyebrow">{service.englishTitle}</p>
           <h1 className="mt-3 text-3xl font-bold leading-tight text-navy sm:text-4xl lg:text-5xl">{service.title}</h1>
-          <p className="mt-5 text-xl font-semibold leading-8 text-slate-800">{service.subtitle}</p>
+          <p
+            className={`mt-5 text-xl font-semibold leading-8 text-slate-800 ${
+              service.slug === "dmz-tour" ? "whitespace-normal lg:whitespace-pre-line" : ""
+            }`}
+          >
+            {service.subtitle}
+          </p>
           <p className="mt-4 text-base leading-8 text-slate-600">{service.heroDescription || service.description}</p>
           <div className="mt-7 flex flex-wrap gap-3">
             <Link href="#contact" className="btn-primary">
@@ -226,17 +245,21 @@ function CardSection({
 function ItinerarySection({
   items,
   title = "일정 예시",
-  roomy = false
+  roomy = false,
+  notes,
+  columns = 5
 }: {
   items: ServiceItineraryStep[];
   title?: string;
   roomy?: boolean;
+  notes?: string[];
+  columns?: 3 | 5;
 }) {
   return (
     <section className={`${roomy ? "py-16 sm:py-20 lg:py-24" : "section-y"} bg-navy text-white`}>
       <div className="container-px mx-auto max-w-7xl">
         <SectionHeading eyebrow="HOW IT WORKS" title={title} light />
-        <ol className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+        <ol className={`grid gap-4 md:grid-cols-2 ${columns === 3 ? "lg:grid-cols-3" : "lg:grid-cols-5"}`}>
           {items.map((item, index) => (
             <li key={`${item.title}-${index}`} className="rounded-[20px] border border-white/10 bg-white/5 p-5">
               <span className="text-xs font-bold tracking-[0.14em] text-brand-green">
@@ -247,6 +270,16 @@ function ItinerarySection({
             </li>
           ))}
         </ol>
+        {hasItems(notes) ? (
+          <ul className="mt-6 space-y-2 rounded-[20px] border border-white/10 bg-white/5 p-5 text-sm leading-7 text-white/75 sm:p-6">
+            {notes.map((note) => (
+              <li key={note} className="flex gap-3">
+                <span className="shrink-0 font-bold text-brand-green" aria-hidden="true">※</span>
+                <span>{note}</span>
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </div>
     </section>
   );
@@ -376,13 +409,30 @@ function MediaSlot({ media, large = false }: { media: ServiceMediaSlot; large?: 
       style={isContainedImage && aspectRatio ? { aspectRatio } : undefined}
     >
       {media.src ? (
-        <ManagedImage
-          src={media.src}
-          alt={media.alt}
-          fill
-          className={media.fit === "contain" ? "object-contain" : "object-cover"}
-          sizes={large ? "(min-width: 1280px) 1024px, 100vw" : "(min-width: 1024px) 33vw, 100vw"}
-        />
+        <>
+          <ManagedImage
+            src={media.src}
+            alt={media.alt}
+            fill
+            className={media.fit === "contain" ? "object-contain" : "object-cover"}
+            sizes={large ? "(min-width: 1280px) 1024px, 100vw" : "(min-width: 1024px) 33vw, 100vw"}
+          />
+          {media.credit && media.creditUrl ? (
+            <p className="absolute right-2 bottom-2 rounded-full bg-navy/75 px-2.5 py-1 text-[10px] font-semibold text-white backdrop-blur-sm">
+              <a href={media.creditUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                {media.credit}
+              </a>
+              {media.license && media.licenseUrl ? (
+                <>
+                  <span aria-hidden="true"> · </span>
+                  <a href={media.licenseUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                    {media.license}
+                  </a>
+                </>
+              ) : null}
+            </p>
+          ) : null}
+        </>
       ) : (
         <div className="absolute inset-0 grid place-items-center border border-dashed border-brand-blue/30 p-6 text-center">
           <div>
@@ -417,12 +467,50 @@ function UsageInfoSection({ items, columns = 2 }: { items: ServiceQuickInfo[]; c
   );
 }
 
-function IncludedSection({ included, excluded }: { included?: string[]; excluded?: string[] }) {
+function IncludedSection({
+  included,
+  excluded,
+  includedTitle = "서비스 구성",
+  excludedTitle = "별도 확인사항"
+}: {
+  included?: string[];
+  excluded?: string[];
+  includedTitle?: string;
+  excludedTitle?: string;
+}) {
   return (
     <section className="section-y bg-paper">
       <div className="container-px mx-auto grid max-w-7xl gap-5 lg:grid-cols-2">
-        {hasItems(included) ? <ListCard title="서비스 구성" items={included} tone="included" /> : null}
-        {hasItems(excluded) ? <ListCard title="별도 확인사항" items={excluded} tone="excluded" /> : null}
+        {hasItems(included) ? <ListCard title={includedTitle} items={included} tone="included" /> : null}
+        {hasItems(excluded) ? <ListCard title={excludedTitle} items={excluded} tone="excluded" /> : null}
+      </div>
+    </section>
+  );
+}
+
+function ImportantNoticeSection({ section }: { section: ServiceImportantNoticeSection }) {
+  return (
+    <section className="section-y bg-white">
+      <div className="container-px mx-auto max-w-5xl">
+        <div className="overflow-hidden rounded-[24px] border-2 border-brand-orange/35 bg-brand-yellow/10 shadow-soft">
+          <div className="border-b border-brand-orange/20 bg-brand-orange px-6 py-5 text-white sm:px-8">
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-white/85">
+              {section.eyebrow || "IMPORTANT NOTICE"}
+            </p>
+            <h2 className="mt-2 text-2xl font-bold sm:text-3xl">{section.title}</h2>
+            {section.description ? <p className="mt-3 max-w-3xl text-sm leading-7 text-white/90">{section.description}</p> : null}
+          </div>
+          <ol className="divide-y divide-brand-orange/15 px-6 sm:px-8">
+            {section.items.map((item, index) => (
+              <li key={item} className="flex gap-4 py-5 text-sm font-semibold leading-7 text-slate-800 sm:text-base">
+                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-brand-orange text-xs font-bold text-white" aria-hidden="true">
+                  {index + 1}
+                </span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
       </div>
     </section>
   );
