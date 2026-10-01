@@ -27,10 +27,10 @@ export const guideService: ServiceDetail = {
   categoriesDescription: "사이투어가 가이드 서비스를 준비할 때 중요하게 생각하는 네 가지 기준입니다.",
   categoriesColumns: 2,
   categories: [
-    { title: "PROFESSIONAL", description: "일정과 방문 목적을 이해하고 고객에게 필요한 안내를 제공합니다." },
-    { title: "EXPERIENCED", description: "관광과 행사 현장의 경험을 바탕으로 현장 상황에 유연하게 대응합니다." },
-    { title: "RESPONSIBLE", description: "약속된 일정과 고객 응대에 책임감을 갖고 성실하게 함께합니다." },
-    { title: "COMMUNICATION", description: "단순한 언어 전달을 넘어 고객과 자연스럽고 원활하게 소통합니다." }
+    { title: "전문성 PROFESSIONAL", description: "일정과 방문 목적을 이해하고 고객에게 필요한 안내를 제공합니다." },
+    { title: "경험 EXPERIENCE", description: "관광과 행사 현장의 경험을 바탕으로 현장 상황에 유연하게 대응합니다." },
+    { title: "책임감 RESPONSIBLE", description: "약속된 일정과 고객 응대에 책임감을 갖고 성실하게 함께합니다." },
+    { title: "소통 COMMUNICATION", description: "단순한 언어 전달을 넘어 고객과 자연스럽고 원활하게 소통합니다." }
   ],
   coursesEyebrow: "GUIDE SERVICE FOR",
   coursesTitle: "이런 일정에 함께합니다",
