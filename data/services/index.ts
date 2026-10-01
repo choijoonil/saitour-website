@@ -7,6 +7,10 @@ import { seoulService } from "@/data/services/seoul";
 
 export type { ServiceDetail, Tour } from "@/data/services/types";
 
+export function getServiceHref(slug: string) {
+  return `/tours/${slug}`;
+}
+
 export const services = [
   dmzService,
   seoulService,

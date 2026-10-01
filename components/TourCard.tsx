@@ -1,11 +1,12 @@
 import Link from "next/link";
 import ManagedImage from "@/components/ManagedImage";
+import { getServiceHref } from "@/data/services/index";
 import type { Tour } from "@/data/tours";
 
 export default function TourCard({ tour }: { tour: Tour }) {
   return (
     <Link
-      href={`/tours/${tour.slug}`}
+      href={getServiceHref(tour.slug)}
       className="card card-hover group flex h-full flex-col overflow-hidden p-0 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2"
     >
       <div className="relative aspect-[4/3] sm:aspect-[16/10]">

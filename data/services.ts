@@ -1,4 +1,5 @@
 import { imagePaths } from "@/data/images";
+import { getServiceHref } from "@/data/services/index";
 
 export type RepresentativeService = {
   href: string;
@@ -12,7 +13,7 @@ export type RepresentativeService = {
 
 export const representativeServices: RepresentativeService[] = [
   {
-    href: "/tours/dmz-tour",
+    href: getServiceHref("dmz-tour"),
     english: "DMZ TOUR",
     title: "DMZ 투어",
     description: "비무장지대와 평화 관광지를 전문적으로 안내합니다.",
@@ -21,7 +22,7 @@ export const representativeServices: RepresentativeService[] = [
     imagePosition: "center"
   },
   {
-    href: "/tours/seoul-city-tour",
+    href: getServiceHref("seoul-city-tour"),
     english: "SEOUL CITY TOUR",
     title: "서울 시티투어",
     description: "경복궁, 북촌, 명동, 한강 등 서울의 매력을 맞춤 일정으로 소개합니다.",
@@ -30,7 +31,7 @@ export const representativeServices: RepresentativeService[] = [
     imagePosition: "center"
   },
   {
-    href: "/tours/airport-transfer",
+    href: getServiceHref("airport-transfer"),
     english: "AIRPORT TRANSFER",
     title: "공항픽업 & 샌딩",
     description: "인천공항·김포공항에서 호텔까지 편안하게 연결합니다.",
@@ -39,7 +40,7 @@ export const representativeServices: RepresentativeService[] = [
     imagePosition: "center"
   },
   {
-    href: "/tours/private-tour",
+    href: getServiceHref("private-tour"),
     english: "PRIVATE TOUR",
     title: "프라이빗 투어",
     description: "인원, 일정, 목적에 맞춘 단독 맞춤 투어를 제공합니다.",
@@ -48,7 +49,7 @@ export const representativeServices: RepresentativeService[] = [
     imagePosition: "center"
   },
   {
-    href: "/tours/guide-service",
+    href: getServiceHref("guide-service"),
     english: "GUIDE SERVICE",
     title: "외국어 전문 가이드",
     description: "영어·일본어·중국어로 여행 목적과 일정에 맞는 가이드 서비스를 상담합니다.",
@@ -57,7 +58,7 @@ export const representativeServices: RepresentativeService[] = [
     imagePosition: "center"
   },
   {
-    href: "/tours/corporate-events",
+    href: getServiceHref("corporate-events"),
     english: "CORPORATE EVENTS",
     title: "기업행사",
     description: "고객이 확정한 행사 일정에 맞춰 차량, 가이드·통역, 이동과 부대 일정을 지원합니다.",
