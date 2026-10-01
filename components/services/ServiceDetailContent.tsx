@@ -2,10 +2,13 @@ import Link from "next/link";
 import ContactCTA from "@/components/ContactCTA";
 import ManagedImage from "@/components/ManagedImage";
 import type {
+  ServiceChecklistSection,
   ServiceContentCard,
   ServiceDetail,
   ServiceItineraryStep,
-  ServiceQuickInfo
+  ServiceMediaSlot,
+  ServiceQuickInfo,
+  ServiceTableSection
 } from "@/data/services/types";
 
 export default function ServiceDetailContent({ service }: { service: ServiceDetail }) {
@@ -42,13 +45,21 @@ export default function ServiceDetailContent({ service }: { service: ServiceDeta
       {hasItems(service.courses) ? (
         <CardSection eyebrow="COURSES" title="추천 코스" items={service.courses} background="white" />
       ) : null}
-      {hasItems(service.itinerary) ? <ItinerarySection items={service.itinerary} /> : null}
+      {hasItems(service.itinerary) ? (
+        <ItinerarySection items={service.itinerary} title={service.itineraryTitle} />
+      ) : null}
       {hasItems(service.highlights) ? (
         <CardSection eyebrow="HIGHLIGHTS" title="주요 방문지와 테마" items={service.highlights} background="white" />
       ) : null}
       {hasItems(service.vehicleInfo) ? (
-        <CardSection eyebrow="VEHICLE & OPTIONS" title="차량 및 운영 옵션" items={service.vehicleInfo} />
+        <CardSection
+          eyebrow="VEHICLE & OPTIONS"
+          title={service.vehicleInfoTitle || "차량 및 운영 옵션"}
+          items={service.vehicleInfo}
+        />
       ) : null}
+      {service.pricing ? <PricingSection section={service.pricing} /> : null}
+      {service.checklist ? <ChecklistSection section={service.checklist} /> : null}
       {hasItems(service.usageInfo) ? <UsageInfoSection items={service.usageInfo} /> : null}
       {hasItems(service.included) || hasItems(service.excluded) ? (
         <IncludedSection included={service.included} excluded={service.excluded} />
@@ -97,7 +108,7 @@ export default function ServiceDetailContent({ service }: { service: ServiceDeta
             <h2 className="mt-3 text-2xl font-bold sm:text-3xl">{service.title}, 상담부터 함께 준비합니다.</h2>
           </div>
           <Link href="#contact" className="btn-primary shrink-0 bg-brand-mint hover:bg-brand-blue">
-            이 서비스 문의하기
+            {service.ctaLabel || "이 서비스 문의하기"}
           </Link>
         </div>
       </section>
@@ -173,6 +184,7 @@ function CardSection({
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {items.map((item) => (
             <article key={item.title} className="card h-full">
+              {item.media ? <MediaSlot media={item.media} /> : null}
               <h3 className="text-xl font-bold text-navy">{item.title}</h3>
               <p className="mt-3 text-sm leading-7 text-slate-600">{item.description}</p>
               {hasItems(item.items) ? (
@@ -193,15 +205,17 @@ function CardSection({
   );
 }
 
-function ItinerarySection({ items }: { items: ServiceItineraryStep[] }) {
+function ItinerarySection({ items, title = "일정 예시" }: { items: ServiceItineraryStep[]; title?: string }) {
   return (
     <section className="section-y bg-navy text-white">
       <div className="container-px mx-auto max-w-7xl">
-        <SectionHeading eyebrow="HOW IT WORKS" title="일정 예시" light />
+        <SectionHeading eyebrow="HOW IT WORKS" title={title} light />
         <ol className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
           {items.map((item, index) => (
             <li key={`${item.title}-${index}`} className="rounded-[20px] border border-white/10 bg-white/5 p-5">
-              <span className="text-xs font-bold tracking-[0.14em] text-brand-green">STEP {index + 1}</span>
+              <span className="text-xs font-bold tracking-[0.14em] text-brand-green">
+                STEP {String(index + 1).padStart(2, "0")}
+              </span>
               <h3 className="mt-4 text-lg font-bold">{item.title}</h3>
               {item.description ? <p className="mt-3 text-sm leading-6 text-white/70">{item.description}</p> : null}
             </li>
@@ -209,6 +223,149 @@ function ItinerarySection({ items }: { items: ServiceItineraryStep[] }) {
         </ol>
       </div>
     </section>
+  );
+}
+
+function PricingSection({ section }: { section: ServiceTableSection }) {
+  return (
+    <section className="section-y bg-white">
+      <div className="container-px mx-auto max-w-7xl">
+        <SectionHeading eyebrow={section.eyebrow} title={section.title} />
+        <p className="-mt-5 max-w-3xl text-base leading-7 text-slate-600">{section.description}</p>
+
+        {section.media ? (
+          <div className="mt-8">
+            <MediaSlot media={section.media} large />
+          </div>
+        ) : null}
+
+        <div className="mt-8 hidden overflow-hidden rounded-[20px] border border-slate-100 bg-white shadow-soft md:block">
+          <table className="w-full border-collapse text-left">
+            <thead className="bg-navy text-white">
+              <tr>
+                <th className="px-5 py-4 text-sm font-bold">구역 및 해당 지역</th>
+                {section.columns.map((column) => (
+                  <th key={column.key} className="px-5 py-4 text-sm font-bold">
+                    {column.label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {section.rows.map((row) => (
+                <tr key={row.label} className="border-t border-slate-100">
+                  <th className="px-5 py-5 align-top text-base font-bold text-navy">
+                    {row.label}
+                    {hasItems(row.details) ? (
+                      <span className="mt-2 block max-w-xl text-sm font-normal leading-6 text-slate-600">
+                        {row.details.join(" · ")}
+                      </span>
+                    ) : null}
+                  </th>
+                  {section.columns.map((column) => (
+                    <td key={column.key} className="whitespace-nowrap px-5 py-5 align-top text-base font-bold text-brand-blue">
+                      {row.values[column.key]}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="mt-8 grid gap-4 md:hidden">
+          {section.rows.map((row) => (
+            <article key={row.label} className="card">
+              <h3 className="text-xl font-bold text-navy">{row.label}</h3>
+              {hasItems(row.details) ? <p className="mt-2 text-sm leading-6 text-slate-600">{row.details.join(" · ")}</p> : null}
+              <dl className="mt-5 grid grid-cols-2 gap-3">
+                {section.columns.map((column) => (
+                  <div key={column.key} className="rounded-2xl bg-paper p-4">
+                    <dt className="text-xs font-bold text-slate-500">{column.label}</dt>
+                    <dd className="mt-2 text-base font-bold text-brand-blue">{row.values[column.key]}</dd>
+                  </div>
+                ))}
+              </dl>
+            </article>
+          ))}
+        </div>
+
+        {hasItems(section.notes) ? (
+          <ul className="mt-6 space-y-2 rounded-[20px] border border-brand-yellow/40 bg-brand-yellow/10 p-5 text-sm leading-6 text-slate-700 sm:p-6">
+            {section.notes.map((note) => (
+              <li key={note} className="flex gap-2">
+                <span className="shrink-0 font-bold text-brand-orange" aria-hidden="true">
+                  ※
+                </span>
+                <span>{note}</span>
+              </li>
+            ))}
+          </ul>
+        ) : null}
+
+        {section.ctaLabel ? (
+          <div className="mt-8 flex justify-center">
+            <Link href="#contact" className="btn-primary">
+              {section.ctaLabel}
+            </Link>
+          </div>
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
+function ChecklistSection({ section }: { section: ServiceChecklistSection }) {
+  return (
+    <section className="section-y bg-paper">
+      <div className="container-px mx-auto max-w-7xl">
+        <SectionHeading eyebrow={section.eyebrow} title={section.title} />
+        {section.description ? <p className="-mt-5 max-w-3xl text-base leading-7 text-slate-600">{section.description}</p> : null}
+        <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {section.items.map((item) => (
+            <li key={item} className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-white p-4 text-sm font-semibold text-navy shadow-soft">
+              <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-brand-mint/10 font-bold text-brand-mint" aria-hidden="true">
+                ✓
+              </span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+function MediaSlot({ media, large = false }: { media: ServiceMediaSlot; large?: boolean }) {
+  const isContainedImage = media.src && media.fit === "contain";
+  const aspectRatio = media.width && media.height ? `${media.width} / ${media.height}` : undefined;
+
+  return (
+    <div
+      className={`relative mb-5 overflow-hidden rounded-[20px] ${
+        isContainedImage
+          ? "mx-auto w-full max-w-5xl border border-slate-100 bg-white"
+          : `bg-brand-surface ${large ? "aspect-[16/7]" : "aspect-video"}`
+      }`}
+      style={isContainedImage && aspectRatio ? { aspectRatio } : undefined}
+    >
+      {media.src ? (
+        <ManagedImage
+          src={media.src}
+          alt={media.alt}
+          fill
+          className={media.fit === "contain" ? "object-contain" : "object-cover"}
+          sizes={large ? "(min-width: 1280px) 1024px, 100vw" : "(min-width: 1024px) 33vw, 100vw"}
+        />
+      ) : (
+        <div className="absolute inset-0 grid place-items-center border border-dashed border-brand-blue/30 p-6 text-center">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-brand-blue">IMAGE</p>
+            {media.placeholder ? <p className="mt-2 text-sm font-semibold text-slate-500">{media.placeholder}</p> : null}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
