@@ -17,7 +17,13 @@ export default function ServiceDetailContent({ service }: { service: ServiceDeta
       <ServiceHero service={service} />
       {hasItems(service.quickInfo) ? <QuickInfo items={service.quickInfo} /> : null}
 
-      <section className="section-y bg-white">
+      <section
+        className={
+          service.compactIntroduction
+            ? "bg-white pt-14 pb-8 sm:pt-16 sm:pb-10 lg:pt-20 lg:pb-12"
+            : "section-y bg-white"
+        }
+      >
         <div className="container-px mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.65fr_1.35fr] lg:gap-14">
           <div>
             <p className="eyebrow">ABOUT THE SERVICE</p>
@@ -43,10 +49,16 @@ export default function ServiceDetailContent({ service }: { service: ServiceDeta
         <CardSection eyebrow="SERVICE TYPES" title="서비스 구성" items={service.categories} />
       ) : null}
       {hasItems(service.courses) ? (
-        <CardSection eyebrow="COURSES" title="추천 코스" items={service.courses} background="white" />
+        <CardSection
+          eyebrow={service.coursesEyebrow || "COURSES"}
+          title={service.coursesTitle || "추천 코스"}
+          items={service.courses}
+          background="white"
+          columns={service.coursesColumns}
+        />
       ) : null}
       {hasItems(service.itinerary) ? (
-        <ItinerarySection items={service.itinerary} title={service.itineraryTitle} />
+        <ItinerarySection items={service.itinerary} title={service.itineraryTitle} roomy={service.itineraryRoomy} />
       ) : null}
       {hasItems(service.highlights) ? (
         <CardSection eyebrow="HIGHLIGHTS" title="주요 방문지와 테마" items={service.highlights} background="white" />
@@ -59,8 +71,10 @@ export default function ServiceDetailContent({ service }: { service: ServiceDeta
         />
       ) : null}
       {service.pricing ? <PricingSection section={service.pricing} /> : null}
+      {hasItems(service.usageInfo) ? (
+        <UsageInfoSection items={service.usageInfo} columns={service.usageInfoColumns} />
+      ) : null}
       {service.checklist ? <ChecklistSection section={service.checklist} /> : null}
-      {hasItems(service.usageInfo) ? <UsageInfoSection items={service.usageInfo} /> : null}
       {hasItems(service.included) || hasItems(service.excluded) ? (
         <IncludedSection included={service.included} excluded={service.excluded} />
       ) : null}
@@ -105,7 +119,9 @@ export default function ServiceDetailContent({ service }: { service: ServiceDeta
         <div className="container-px mx-auto flex max-w-7xl flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.18em] text-brand-green">PLAN WITH SAITOUR</p>
-            <h2 className="mt-3 text-2xl font-bold sm:text-3xl">{service.title}, 상담부터 함께 준비합니다.</h2>
+            <h2 className="mt-3 text-2xl font-bold sm:text-3xl">
+              {service.ctaTitle || `${service.title}, 상담부터 함께 준비합니다.`}
+            </h2>
           </div>
           <Link href="#contact" className="btn-primary shrink-0 bg-brand-mint hover:bg-brand-blue">
             {service.ctaLabel || "이 서비스 문의하기"}
@@ -136,7 +152,7 @@ function ServiceHero({ service }: { service: ServiceDetail }) {
           <p className="eyebrow">{service.englishTitle}</p>
           <h1 className="mt-3 text-3xl font-bold leading-tight text-navy sm:text-4xl lg:text-5xl">{service.title}</h1>
           <p className="mt-5 text-xl font-semibold leading-8 text-slate-800">{service.subtitle}</p>
-          <p className="mt-4 text-base leading-8 text-slate-600">{service.description}</p>
+          <p className="mt-4 text-base leading-8 text-slate-600">{service.heroDescription || service.description}</p>
           <div className="mt-7 flex flex-wrap gap-3">
             <Link href="#contact" className="btn-primary">
               여행 문의하기
@@ -170,18 +186,20 @@ function CardSection({
   eyebrow,
   title,
   items,
-  background = "paper"
+  background = "paper",
+  columns = 3
 }: {
   eyebrow: string;
   title: string;
   items: ServiceContentCard[];
   background?: "paper" | "white";
+  columns?: 2 | 3;
 }) {
   return (
     <section className={`section-y ${background === "paper" ? "bg-paper" : "bg-white"}`}>
       <div className="container-px mx-auto max-w-7xl">
         <SectionHeading eyebrow={eyebrow} title={title} />
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className={`grid gap-5 md:grid-cols-2 ${columns === 2 ? "lg:grid-cols-2" : "lg:grid-cols-3"}`}>
           {items.map((item) => (
             <article key={item.title} className="card h-full">
               {item.media ? <MediaSlot media={item.media} /> : null}
@@ -205,9 +223,17 @@ function CardSection({
   );
 }
 
-function ItinerarySection({ items, title = "일정 예시" }: { items: ServiceItineraryStep[]; title?: string }) {
+function ItinerarySection({
+  items,
+  title = "일정 예시",
+  roomy = false
+}: {
+  items: ServiceItineraryStep[];
+  title?: string;
+  roomy?: boolean;
+}) {
   return (
-    <section className="section-y bg-navy text-white">
+    <section className={`${roomy ? "py-16 sm:py-20 lg:py-24" : "section-y"} bg-navy text-white`}>
       <div className="container-px mx-auto max-w-7xl">
         <SectionHeading eyebrow="HOW IT WORKS" title={title} light />
         <ol className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
@@ -369,12 +395,16 @@ function MediaSlot({ media, large = false }: { media: ServiceMediaSlot; large?: 
   );
 }
 
-function UsageInfoSection({ items }: { items: ServiceQuickInfo[] }) {
+function UsageInfoSection({ items, columns = 2 }: { items: ServiceQuickInfo[]; columns?: 2 | 3 }) {
   return (
     <section className="section-y bg-white">
       <div className="container-px mx-auto max-w-7xl">
         <SectionHeading eyebrow="INFORMATION" title="이용정보" />
-        <dl className="grid overflow-hidden rounded-[20px] border border-slate-100 bg-white shadow-soft md:grid-cols-2">
+        <dl
+          className={`grid overflow-hidden rounded-[20px] border border-slate-100 bg-white shadow-soft ${
+            columns === 3 ? "md:grid-cols-3" : "md:grid-cols-2"
+          }`}
+        >
           {items.map((item) => (
             <div key={item.label} className="border-b border-slate-100 p-5 last:border-b-0 sm:p-6 md:border-r md:last:border-r-0">
               <dt className="text-sm font-bold text-brand-blue">{item.label}</dt>
