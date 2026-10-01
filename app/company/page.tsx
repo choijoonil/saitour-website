@@ -61,6 +61,28 @@ export default function CompanyPage() {
               description="정확한 상담과 책임 있는 운영을 기본으로 생각합니다."
             />
             <div className="space-y-4 text-base leading-8 text-slate-600">
+              <div className="mb-8 rounded-[20px] border border-slate-100 bg-white p-5 shadow-soft sm:p-7">
+                <p className="text-base leading-8 text-slate-600 [word-break:keep-all]">
+                  사이투어의 이름 SAI에는 우리가 만들고 싶은 여행의 가치가 담겨 있습니다.
+                </p>
+                <p className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-1.5 text-lg font-bold tracking-[0.04em] text-navy sm:text-xl">
+                  <span className="whitespace-nowrap"><span className="text-brand-blue">S</span>PECIAL</span>
+                  <span aria-hidden="true" className="text-slate-300">·</span>
+                  <span className="whitespace-nowrap"><span className="text-brand-green">A</span>UTHENTIC</span>
+                  <span aria-hidden="true" className="text-slate-300">·</span>
+                  <span className="whitespace-nowrap"><span className="text-brand-mint">I</span>NSPIRING</span>
+                </p>
+                <p className="mt-3 font-semibold text-slate-800 [word-break:keep-all]">
+                  특별하고, 진정성 있으며, 영감을 주는 여행
+                </p>
+                <div className="mt-5 space-y-3 text-base leading-8 text-slate-600 [word-break:keep-all]">
+                  <p>
+                    특별한 경험을 만들고, 진정성 있는 서비스로 여행자를 만나며, 오래도록 기억에 남을 영감을 전하는 것.
+                  </p>
+                  <p>그것이 사이투어가 생각하는 좋은 여행입니다.</p>
+                  <p className="pt-1 text-sm font-bold tracking-[0.12em] text-navy">ALWAYS GOOD BUDDY, SAITOUR</p>
+                </div>
+              </div>
               <p>
                 사이투어는 외국인 한국여행, DMZ 투어, 서울 시티투어, 공항 이동, 기업행사까지 고객 여정에 필요한 운영 요소를 함께 확인합니다.
               </p>
