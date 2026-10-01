@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { FormEvent } from "react";
 import { useRef, useState } from "react";
+import { NAVER_MAP_URL } from "@/constants/site";
 
 type ContactFormErrors = Partial<Record<"name" | "phone" | "email" | "message" | "privacy", string>>;
 type SubmitState = "idle" | "submitting" | "success" | "error";
@@ -25,7 +26,6 @@ const inquiryTypes = [
   "일반문의"
 ];
 const officeAddress = "서울시 강서구 마곡중앙로 161-17, 712호";
-const naverMapUrl = "https://map.naver.com/p/search/사이투어";
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phonePattern = /^[0-9+\-\s()]+$/;
 
@@ -202,7 +202,7 @@ export default function ContactCTA({
                   </div>
                 </div>
                 <a
-                  href={naverMapUrl}
+                  href={NAVER_MAP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-8 inline-flex min-h-10 items-center justify-center rounded-full border border-brand-blue px-4 text-sm font-bold text-brand-blue transition hover:bg-brand-blue hover:text-white focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-offset-2"

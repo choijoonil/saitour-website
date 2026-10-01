@@ -1,5 +1,6 @@
 export const SITE_URL = "https://www.saitour.net";
 export const NAVER_BLOG_URL = "https://blog.naver.com/cji6157";
+export const NAVER_MAP_URL = "https://map.naver.com/p/search/사이투어";
 export const KAKAO_CHAT_URL = "http://pf.kakao.com/_xnFXMxb/chat";
 
 export const CONTACT_PHONE_DISPLAY = "02-6341-0042";

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import ManagedImage from "@/components/ManagedImage";
 import SectionTitle from "@/components/SectionTitle";
-import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY } from "@/constants/site";
+import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, NAVER_MAP_URL } from "@/constants/site";
 import { imagePaths } from "@/data/images";
 
 export const metadata: Metadata = {
@@ -60,12 +60,12 @@ export default function CompanyPage() {
               title="사이투어 이야기"
               description="정확한 상담과 책임 있는 운영을 기본으로 생각합니다."
             />
-            <div className="space-y-4 text-base leading-8 text-slate-600">
-              <div className="mb-8 rounded-[20px] border border-slate-100 bg-white p-5 shadow-soft sm:p-7">
-                <p className="text-base leading-8 text-slate-600 [word-break:keep-all]">
-                  사이투어의 이름 SAI에는 우리가 만들고 싶은 여행의 가치가 담겨 있습니다.
-                </p>
-                <p className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-1.5 text-lg font-bold tracking-[0.04em] text-navy sm:text-xl">
+            <div className="text-base leading-8 text-slate-600 [word-break:keep-all]">
+              <p>
+                사이투어의 이름 SAI에는 우리가 만들고 싶은 여행의 가치가 담겨 있습니다.
+              </p>
+              <div className="mt-6">
+                <p className="flex flex-wrap items-center gap-x-2 gap-y-1.5 text-lg font-bold tracking-[0.04em] text-navy sm:text-xl">
                   <span className="whitespace-nowrap"><span className="text-brand-blue">S</span>PECIAL</span>
                   <span aria-hidden="true" className="text-slate-300">·</span>
                   <span className="whitespace-nowrap"><span className="text-brand-green">A</span>UTHENTIC</span>
@@ -75,20 +75,20 @@ export default function CompanyPage() {
                 <p className="mt-3 font-semibold text-slate-800 [word-break:keep-all]">
                   특별하고, 진정성 있으며, 영감을 주는 여행
                 </p>
-                <div className="mt-5 space-y-3 text-base leading-8 text-slate-600 [word-break:keep-all]">
+                <div className="mt-5 space-y-3">
                   <p>
                     특별한 경험을 만들고, 진정성 있는 서비스로 여행자를 만나며, 오래도록 기억에 남을 영감을 전하는 것.
                   </p>
                   <p>그것이 사이투어가 생각하는 좋은 여행입니다.</p>
-                  <p className="pt-1 text-sm font-bold tracking-[0.12em] text-navy">ALWAYS GOOD BUDDY, SAITOUR</p>
                 </div>
               </div>
-              <p>
+              <p className="mt-6">
                 사이투어는 외국인 한국여행, DMZ 투어, 서울 시티투어, 공항 이동, 기업행사까지 고객 여정에 필요한 운영 요소를 함께 확인합니다.
               </p>
-              <p>
+              <p className="mt-4">
                 화려한 설명보다 중요한 것은 정확한 상담과 안정적인 운영입니다. 사이투어는 여정의 시작부터 마무리까지 필요한 순간에 함께합니다.
               </p>
+              <p className="mt-6 text-sm font-bold tracking-[0.12em] text-navy">ALWAYS GOOD BUDDY, SAITOUR</p>
             </div>
           </div>
         </div>
@@ -137,12 +137,29 @@ export default function CompanyPage() {
           </div>
           <div className="card">
             <h2 className="text-xl font-bold text-navy">오시는 길</h2>
-            <p className="mt-5 text-sm leading-7 text-slate-600">
-              서울시 강서구 마곡중앙로 161-17, 712호
-            </p>
+            <div className="mt-5 border-b border-slate-100 pb-5">
+              <p className="text-sm font-semibold text-slate-500">주소</p>
+              <p className="mt-2 text-sm leading-7 text-slate-600 [word-break:keep-all]">
+                서울시 강서구 마곡중앙로 161-17, 712호
+              </p>
+            </div>
+            <div className="pt-5">
+              <p className="text-sm font-semibold text-slate-500">대중교통</p>
+              <p className="mt-2 text-sm leading-7 text-slate-600 [word-break:keep-all]">
+                9호선 · 공항철도 <span className="font-semibold text-navy">마곡나루역</span>과 가까워 편리하게 방문하실 수 있습니다.
+              </p>
+            </div>
             <p className="mt-3 text-xs font-semibold text-slate-400">
               방문 상담은 사전 연락 후 안내드립니다.
             </p>
+            <a
+              href={NAVER_MAP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 inline-flex min-h-10 items-center justify-center rounded-full border border-brand-blue px-4 text-sm font-bold text-brand-blue transition hover:bg-brand-blue hover:text-white focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-offset-2"
+            >
+              네이버지도 보기
+            </a>
           </div>
         </div>
       </section>
