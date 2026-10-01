@@ -65,7 +65,7 @@ export default function ServiceDetailContent({ service }: { service: ServiceDeta
           roomy={service.itineraryRoomy}
           notes={service.itineraryNotes}
           columns={service.itineraryColumns}
-          keepTitles={service.slug === "private-tour"}
+          keepTitles={service.slug === "private-tour" || service.slug === "corporate-events"}
         />
       ) : null}
       {service.importantNotice ? <ImportantNoticeSection section={service.importantNotice} /> : null}
@@ -77,6 +77,7 @@ export default function ServiceDetailContent({ service }: { service: ServiceDeta
           eyebrow="VEHICLE & OPTIONS"
           title={service.vehicleInfoTitle || "차량 및 운영 옵션"}
           items={service.vehicleInfo}
+          columns={service.vehicleInfoColumns}
         />
       ) : null}
       {service.pricing ? <PricingSection section={service.pricing} /> : null}
@@ -84,7 +85,10 @@ export default function ServiceDetailContent({ service }: { service: ServiceDeta
         <UsageInfoSection items={service.usageInfo} columns={service.usageInfoColumns} />
       ) : null}
       {service.checklist ? (
-        <ChecklistSection section={service.checklist} compactAfter={service.slug === "private-tour"} />
+        <ChecklistSection
+          section={service.checklist}
+          compactAfter={service.slug === "private-tour" || service.slug === "corporate-events"}
+        />
       ) : null}
       {hasItems(service.included) || hasItems(service.excluded) ? (
         <IncludedSection
@@ -92,7 +96,8 @@ export default function ServiceDetailContent({ service }: { service: ServiceDeta
           excluded={service.excluded}
           includedTitle={service.includedTitle}
           excludedTitle={service.excludedTitle}
-          compactBefore={service.slug === "private-tour"}
+          compactBefore={service.slug === "private-tour" || service.slug === "corporate-events"}
+          includedTwoColumns={service.slug === "corporate-events"}
         />
       ) : null}
       {hasItems(service.notices) ? <NoticeSection items={service.notices} /> : null}
@@ -139,6 +144,7 @@ export default function ServiceDetailContent({ service }: { service: ServiceDeta
             <h2 className="mt-3 text-2xl font-bold sm:text-3xl">
               {service.ctaTitle || `${service.title}, 상담부터 함께 준비합니다.`}
             </h2>
+            {service.ctaDescription ? <p className="mt-3 max-w-3xl text-sm leading-7 text-white/75">{service.ctaDescription}</p> : null}
           </div>
           <Link href="#contact" className="btn-primary shrink-0 bg-brand-mint hover:bg-brand-blue">
             {service.ctaLabel || "이 서비스 문의하기"}
@@ -154,7 +160,11 @@ export default function ServiceDetailContent({ service }: { service: ServiceDeta
 function ServiceHero({ service }: { service: ServiceDetail }) {
   return (
     <section className="bg-white">
-      <div className="container-px mx-auto grid max-w-7xl gap-10 py-14 sm:py-16 lg:grid-cols-[1.08fr_0.92fr] lg:items-center lg:py-20">
+      <div
+        className={`container-px mx-auto grid max-w-7xl gap-10 py-14 sm:py-16 lg:items-center lg:py-20 ${
+          service.slug === "corporate-events" ? "lg:grid-cols-[1fr_1fr]" : "lg:grid-cols-[1.08fr_0.92fr]"
+        }`}
+      >
         <div className="relative aspect-[4/3] overflow-hidden rounded-[20px] bg-paper shadow-soft sm:aspect-[16/10] lg:aspect-[4/3]">
           <ManagedImage
             src={service.heroImage}
@@ -178,7 +188,7 @@ function ServiceHero({ service }: { service: ServiceDetail }) {
           <p className="mt-4 text-base leading-8 text-slate-600">{service.heroDescription || service.description}</p>
           <div className="mt-7 flex flex-wrap gap-3">
             <Link href="#contact" className="btn-primary">
-              여행 문의하기
+              {service.slug === "corporate-events" ? "기업행사 견적 문의" : "여행 문의하기"}
             </Link>
             <Link href="/tours" className="btn-secondary">
               전체 서비스 보기
@@ -490,13 +500,15 @@ function IncludedSection({
   excluded,
   includedTitle = "서비스 구성",
   excludedTitle = "별도 확인사항",
-  compactBefore = false
+  compactBefore = false,
+  includedTwoColumns = false
 }: {
   included?: string[];
   excluded?: string[];
   includedTitle?: string;
   excludedTitle?: string;
   compactBefore?: boolean;
+  includedTwoColumns?: boolean;
 }) {
   return (
     <section
@@ -507,7 +519,9 @@ function IncludedSection({
       }
     >
       <div className="container-px mx-auto grid max-w-7xl gap-5 lg:grid-cols-2">
-        {hasItems(included) ? <ListCard title={includedTitle} items={included} tone="included" /> : null}
+        {hasItems(included) ? (
+          <ListCard title={includedTitle} items={included} tone="included" twoColumns={includedTwoColumns} />
+        ) : null}
         {hasItems(excluded) ? <ListCard title={excludedTitle} items={excluded} tone="excluded" /> : null}
       </div>
     </section>
@@ -542,11 +556,27 @@ function ImportantNoticeSection({ section }: { section: ServiceImportantNoticeSe
   );
 }
 
-function ListCard({ title, items, tone }: { title: string; items: string[]; tone: "included" | "excluded" }) {
+function ListCard({
+  title,
+  items,
+  tone,
+  twoColumns = false
+}: {
+  title: string;
+  items: string[];
+  tone: "included" | "excluded";
+  twoColumns?: boolean;
+}) {
   return (
     <article className="card h-full">
       <h2 className="text-xl font-bold text-navy">{title}</h2>
-      <ul className="mt-5 space-y-3 text-sm leading-6 text-slate-600">
+      <ul
+        className={
+          twoColumns
+            ? "mt-5 grid gap-y-3 text-sm leading-6 text-slate-600 lg:grid-cols-2 lg:gap-x-5"
+            : "mt-5 space-y-3 text-sm leading-6 text-slate-600"
+        }
+      >
         {items.map((item) => (
           <li key={item} className="flex gap-3">
             <span

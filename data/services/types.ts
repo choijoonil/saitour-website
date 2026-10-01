@@ -97,6 +97,7 @@ export type ServiceDetail = {
   highlights?: ServiceContentCard[];
   vehicleInfo?: ServiceContentCard[];
   vehicleInfoTitle?: string;
+  vehicleInfoColumns?: 2 | 3;
   pricing?: ServiceTableSection;
   checklist?: ServiceChecklistSection;
   usageInfo?: ServiceQuickInfo[];
@@ -110,6 +111,7 @@ export type ServiceDetail = {
   faq?: ServiceFaq[];
   contactType: string;
   ctaTitle?: string;
+  ctaDescription?: string;
   ctaLabel?: string;
 };
 
