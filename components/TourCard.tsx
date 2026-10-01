@@ -4,7 +4,10 @@ import type { Tour } from "@/data/tours";
 
 export default function TourCard({ tour }: { tour: Tour }) {
   return (
-    <article className="card card-hover group flex h-full flex-col overflow-hidden p-0">
+    <Link
+      href={`/tours/${tour.slug}`}
+      className="card card-hover group flex h-full flex-col overflow-hidden p-0 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2"
+    >
       <div className="relative aspect-[4/3] sm:aspect-[16/10]">
         <ManagedImage
           src={tour.image}
@@ -29,11 +32,11 @@ export default function TourCard({ tour }: { tour: Tour }) {
           </div>
         </div>
         <div className="mt-auto pt-6">
-          <Link href={`/tours/${tour.slug}`} className="btn-primary w-full">
+          <span className="btn-primary w-full">
             자세히 보기
-          </Link>
+          </span>
         </div>
       </div>
-    </article>
+    </Link>
   );
 }
