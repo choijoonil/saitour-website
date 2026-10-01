@@ -82,11 +82,17 @@ export type ServiceDetail = {
   duration: string;
   recommendedFor: string[];
   compactIntroduction?: boolean;
+  introductionTitle?: string;
   quickInfo?: ServiceQuickInfo[];
   categories?: ServiceContentCard[];
+  categoriesEyebrow?: string;
+  categoriesTitle?: string;
+  categoriesDescription?: string;
+  categoriesColumns?: 2 | 3;
   courses?: ServiceContentCard[];
   coursesEyebrow?: string;
   coursesTitle?: string;
+  coursesDescription?: string;
   coursesColumns?: 2 | 3;
   itinerary?: ServiceItineraryStep[];
   itineraryTitle?: string;
@@ -110,6 +116,7 @@ export type ServiceDetail = {
   reviews?: ServiceReview[];
   faq?: ServiceFaq[];
   contactType: string;
+  heroCtaLabel?: string;
   ctaTitle?: string;
   ctaDescription?: string;
   ctaLabel?: string;

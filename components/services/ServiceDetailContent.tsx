@@ -28,7 +28,13 @@ export default function ServiceDetailContent({ service }: { service: ServiceDeta
         <div className="container-px mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.65fr_1.35fr] lg:gap-14">
           <div>
             <p className="eyebrow">ABOUT THE SERVICE</p>
-            <h2 className="mt-3 text-3xl font-bold tracking-normal text-navy sm:text-4xl">서비스 소개</h2>
+            <h2
+              className={`mt-3 text-3xl font-bold tracking-normal text-navy sm:text-4xl ${
+                service.slug === "guide-service" ? "[word-break:keep-all]" : ""
+              }`}
+            >
+              {service.introductionTitle || "서비스 소개"}
+            </h2>
           </div>
           <div>
             <p className="text-lg font-semibold leading-8 text-slate-800">{service.summary}</p>
@@ -47,12 +53,19 @@ export default function ServiceDetailContent({ service }: { service: ServiceDeta
       </section>
 
       {hasItems(service.categories) ? (
-        <CardSection eyebrow="SERVICE TYPES" title="서비스 구성" items={service.categories} />
+        <CardSection
+          eyebrow={service.categoriesEyebrow || "SERVICE TYPES"}
+          title={service.categoriesTitle || "서비스 구성"}
+          description={service.categoriesDescription}
+          items={service.categories}
+          columns={service.categoriesColumns}
+        />
       ) : null}
       {hasItems(service.courses) ? (
         <CardSection
           eyebrow={service.coursesEyebrow || "COURSES"}
           title={service.coursesTitle || "추천 코스"}
+          description={service.coursesDescription}
           items={service.courses}
           background="white"
           columns={service.coursesColumns}
@@ -65,7 +78,10 @@ export default function ServiceDetailContent({ service }: { service: ServiceDeta
           roomy={service.itineraryRoomy}
           notes={service.itineraryNotes}
           columns={service.itineraryColumns}
-          keepTitles={service.slug === "private-tour" || service.slug === "corporate-events"}
+          keepTitles={
+            service.slug === "private-tour" || service.slug === "corporate-events" || service.slug === "guide-service"
+          }
+          keepBodyWords={service.slug === "guide-service"}
         />
       ) : null}
       {service.importantNotice ? <ImportantNoticeSection section={service.importantNotice} /> : null}
@@ -162,7 +178,9 @@ function ServiceHero({ service }: { service: ServiceDetail }) {
     <section className="bg-white">
       <div
         className={`container-px mx-auto grid max-w-7xl gap-10 py-14 sm:py-16 lg:items-center lg:py-20 ${
-          service.slug === "corporate-events" ? "lg:grid-cols-[1fr_1fr]" : "lg:grid-cols-[1.08fr_0.92fr]"
+          service.slug === "corporate-events" || service.slug === "guide-service"
+            ? "lg:grid-cols-[1fr_1fr]"
+            : "lg:grid-cols-[1.08fr_0.92fr]"
         }`}
       >
         <div className="relative aspect-[4/3] overflow-hidden rounded-[20px] bg-paper shadow-soft sm:aspect-[16/10] lg:aspect-[4/3]">
@@ -185,10 +203,16 @@ function ServiceHero({ service }: { service: ServiceDetail }) {
           >
             {service.subtitle}
           </p>
-          <p className="mt-4 text-base leading-8 text-slate-600">{service.heroDescription || service.description}</p>
+          <p
+            className={`mt-4 text-base leading-8 text-slate-600 ${
+              service.slug === "guide-service" ? "[word-break:keep-all]" : ""
+            }`}
+          >
+            {service.heroDescription || service.description}
+          </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <Link href="#contact" className="btn-primary">
-              {service.slug === "corporate-events" ? "기업행사 견적 문의" : "여행 문의하기"}
+              {service.heroCtaLabel || (service.slug === "corporate-events" ? "기업행사 견적 문의" : "여행 문의하기")}
             </Link>
             <Link href="/tours" className="btn-secondary">
               전체 서비스 보기
@@ -218,12 +242,14 @@ function QuickInfo({ items }: { items: ServiceQuickInfo[] }) {
 function CardSection({
   eyebrow,
   title,
+  description,
   items,
   background = "paper",
   columns = 3
 }: {
   eyebrow: string;
   title: string;
+  description?: string;
   items: ServiceContentCard[];
   background?: "paper" | "white";
   columns?: 2 | 3;
@@ -232,6 +258,7 @@ function CardSection({
     <section className={`section-y ${background === "paper" ? "bg-paper" : "bg-white"}`}>
       <div className="container-px mx-auto max-w-7xl">
         <SectionHeading eyebrow={eyebrow} title={title} />
+        {description ? <p className="-mt-5 mb-9 max-w-3xl text-base leading-7 text-slate-600">{description}</p> : null}
         <div className={`grid gap-5 md:grid-cols-2 ${columns === 2 ? "lg:grid-cols-2" : "lg:grid-cols-3"}`}>
           {items.map((item) => (
             <article key={item.title} className="card h-full">
@@ -262,7 +289,8 @@ function ItinerarySection({
   roomy = false,
   notes,
   columns = 5,
-  keepTitles = false
+  keepTitles = false,
+  keepBodyWords = false
 }: {
   items: ServiceItineraryStep[];
   title?: string;
@@ -270,6 +298,7 @@ function ItinerarySection({
   notes?: string[];
   columns?: 3 | 5;
   keepTitles?: boolean;
+  keepBodyWords?: boolean;
 }) {
   return (
     <section className={`${roomy ? "py-16 sm:py-20 lg:py-24" : "section-y"} bg-navy text-white`}>
@@ -282,7 +311,11 @@ function ItinerarySection({
                 STEP {String(index + 1).padStart(2, "0")}
               </span>
               <h3 className={`mt-4 text-lg font-bold ${keepTitles ? "[word-break:keep-all]" : ""}`}>{item.title}</h3>
-              {item.description ? <p className="mt-3 text-sm leading-6 text-white/70">{item.description}</p> : null}
+              {item.description ? (
+                <p className={`mt-3 text-sm leading-6 text-white/70 ${keepBodyWords ? "[word-break:keep-all]" : ""}`}>
+                  {item.description}
+                </p>
+              ) : null}
             </li>
           ))}
         </ol>
