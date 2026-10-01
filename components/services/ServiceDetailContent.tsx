@@ -65,6 +65,7 @@ export default function ServiceDetailContent({ service }: { service: ServiceDeta
           roomy={service.itineraryRoomy}
           notes={service.itineraryNotes}
           columns={service.itineraryColumns}
+          keepTitles={service.slug === "private-tour"}
         />
       ) : null}
       {service.importantNotice ? <ImportantNoticeSection section={service.importantNotice} /> : null}
@@ -82,13 +83,16 @@ export default function ServiceDetailContent({ service }: { service: ServiceDeta
       {hasItems(service.usageInfo) ? (
         <UsageInfoSection items={service.usageInfo} columns={service.usageInfoColumns} />
       ) : null}
-      {service.checklist ? <ChecklistSection section={service.checklist} /> : null}
+      {service.checklist ? (
+        <ChecklistSection section={service.checklist} compactAfter={service.slug === "private-tour"} />
+      ) : null}
       {hasItems(service.included) || hasItems(service.excluded) ? (
         <IncludedSection
           included={service.included}
           excluded={service.excluded}
           includedTitle={service.includedTitle}
           excludedTitle={service.excludedTitle}
+          compactBefore={service.slug === "private-tour"}
         />
       ) : null}
       {hasItems(service.notices) ? <NoticeSection items={service.notices} /> : null}
@@ -247,13 +251,15 @@ function ItinerarySection({
   title = "일정 예시",
   roomy = false,
   notes,
-  columns = 5
+  columns = 5,
+  keepTitles = false
 }: {
   items: ServiceItineraryStep[];
   title?: string;
   roomy?: boolean;
   notes?: string[];
   columns?: 3 | 5;
+  keepTitles?: boolean;
 }) {
   return (
     <section className={`${roomy ? "py-16 sm:py-20 lg:py-24" : "section-y"} bg-navy text-white`}>
@@ -265,7 +271,7 @@ function ItinerarySection({
               <span className="text-xs font-bold tracking-[0.14em] text-brand-green">
                 STEP {String(index + 1).padStart(2, "0")}
               </span>
-              <h3 className="mt-4 text-lg font-bold">{item.title}</h3>
+              <h3 className={`mt-4 text-lg font-bold ${keepTitles ? "[word-break:keep-all]" : ""}`}>{item.title}</h3>
               {item.description ? <p className="mt-3 text-sm leading-6 text-white/70">{item.description}</p> : null}
             </li>
           ))}
@@ -374,9 +380,21 @@ function PricingSection({ section }: { section: ServiceTableSection }) {
   );
 }
 
-function ChecklistSection({ section }: { section: ServiceChecklistSection }) {
+function ChecklistSection({
+  section,
+  compactAfter = false
+}: {
+  section: ServiceChecklistSection;
+  compactAfter?: boolean;
+}) {
   return (
-    <section className="section-y bg-paper">
+    <section
+      className={
+        compactAfter
+          ? "bg-paper pt-14 pb-10 sm:pt-16 sm:pb-12 lg:pt-20 lg:pb-12"
+          : "section-y bg-paper"
+      }
+    >
       <div className="container-px mx-auto max-w-7xl">
         <SectionHeading eyebrow={section.eyebrow} title={section.title} />
         {section.description ? <p className="-mt-5 max-w-3xl text-base leading-7 text-slate-600">{section.description}</p> : null}
@@ -471,15 +489,23 @@ function IncludedSection({
   included,
   excluded,
   includedTitle = "서비스 구성",
-  excludedTitle = "별도 확인사항"
+  excludedTitle = "별도 확인사항",
+  compactBefore = false
 }: {
   included?: string[];
   excluded?: string[];
   includedTitle?: string;
   excludedTitle?: string;
+  compactBefore?: boolean;
 }) {
   return (
-    <section className="section-y bg-paper">
+    <section
+      className={
+        compactBefore
+          ? "bg-paper pt-10 pb-14 sm:pt-12 sm:pb-16 lg:pt-12 lg:pb-20"
+          : "section-y bg-paper"
+      }
+    >
       <div className="container-px mx-auto grid max-w-7xl gap-5 lg:grid-cols-2">
         {hasItems(included) ? <ListCard title={includedTitle} items={included} tone="included" /> : null}
         {hasItems(excluded) ? <ListCard title={excludedTitle} items={excluded} tone="excluded" /> : null}
