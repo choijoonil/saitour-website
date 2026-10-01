@@ -127,18 +127,16 @@ export async function POST(request: Request) {
 
   if (!name || !phone || !message || !privacy) {
     console.error("[contact] Missing required fields", {
-      receivedPayload: payload,
-      name,
-      phone,
-      message,
-      privacy
+      hasName: Boolean(name),
+      hasPhone: Boolean(phone),
+      hasMessage: Boolean(message),
+      hasPrivacyConsent: privacy
     });
     return jsonError("Required fields are missing");
   }
 
   if (name.length > 50) {
     console.error("[contact] Name is too long", {
-      receivedPayload: payload,
       nameLength: name.length
     });
     return jsonError("Name is too long");
@@ -146,8 +144,7 @@ export async function POST(request: Request) {
 
   if (phone.length > 30 || !phonePattern.test(phone) || phoneDigitCount < 5) {
     console.error("[contact] Invalid phone", {
-      receivedPayload: payload,
-      phone,
+      phoneLength: phone.length,
       phoneDigitCount
     });
     return jsonError("Invalid phone");
@@ -155,15 +152,13 @@ export async function POST(request: Request) {
 
   if (message.length < 4) {
     console.error("[contact] Message is too short", {
-      receivedPayload: payload,
-      message
+      messageLength: message.length
     });
     return jsonError("Message is too short");
   }
 
   if (message.length > 2000) {
     console.error("[contact] Message is too long", {
-      receivedPayload: payload,
       messageLength: message.length
     });
     return jsonError("Message is too long");
@@ -186,8 +181,7 @@ export async function POST(request: Request) {
   if (!resendApiKey || !fromEmail) {
     console.error("[contact] Email service is not configured", {
       hasResendApiKey: Boolean(resendApiKey),
-      hasContactFromEmail: Boolean(fromEmail),
-      toEmail
+      hasContactFromEmail: Boolean(fromEmail)
     });
     return contactError("Email service is not configured", 500, "Missing RESEND_API_KEY or CONTACT_FROM_EMAIL");
   }
@@ -223,10 +217,7 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error("[contact] Resend email send failed", {
-        error,
-        fromEmail,
-        toEmail,
-        subject
+        hasProviderError: true
       });
       return contactError("Failed to send email", 502, error);
     }
@@ -234,10 +225,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("[contact] Unexpected contact email error", {
-      error,
-      fromEmail,
-      toEmail,
-      subject
+      errorType: error instanceof Error ? error.name : "UnknownError"
     });
     return contactError("Failed to send email", 502, error);
   }

@@ -54,6 +54,11 @@ export default function Footer() {
                 여행 문의
               </Link>
             </li>
+            <li>
+              <Link href="/privacy" className="transition hover:text-brand-primary">
+                개인정보처리방침
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

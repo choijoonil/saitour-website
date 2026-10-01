@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { FormEvent } from "react";
 import { useRef, useState } from "react";
 
@@ -283,17 +284,26 @@ export default function ContactCTA({
               </label>
             </div>
 
-            <label className="mt-5 flex gap-3 rounded-2xl bg-paper p-4 text-sm leading-6 text-slate-600">
-              <input
-                name="privacy"
-                type="checkbox"
-                className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-blue focus:ring-brand-blue"
-                aria-invalid={Boolean(errors.privacy)}
-              />
-              <span>
-                문의 접수를 위해 이름, 연락처, 문의 내용을 수집하며 상담 목적 외에는 사용하지 않습니다.
-              </span>
-            </label>
+            <div className="mt-5 rounded-2xl bg-paper p-4 text-sm leading-6 text-slate-600">
+              <label className="flex gap-3">
+                <input
+                  name="privacy"
+                  type="checkbox"
+                  className="mt-1 h-4 w-4 shrink-0 rounded border-slate-300 text-brand-blue focus:ring-brand-blue"
+                  aria-invalid={Boolean(errors.privacy)}
+                />
+                <span className="font-semibold text-navy">[필수] 개인정보 수집·이용 동의</span>
+              </label>
+              <div className="mt-3 space-y-1 pl-7 text-xs leading-5 text-slate-500 [word-break:keep-all]">
+                <p>수집항목: 이름, 연락처, 문의 내용 (선택: 이메일, 문의 유형)</p>
+                <p>이용목적: 문의 접수, 상담, 견적 및 일정 안내</p>
+                <p>보유기간: 문의 접수일로부터 1년</p>
+                <p>동의를 거부할 수 있으나, 필수정보 수집에 동의하지 않으면 문의 접수가 제한될 수 있습니다.</p>
+                <Link href="/privacy" className="inline-flex font-semibold text-brand-blue underline-offset-4 hover:underline">
+                  개인정보처리방침
+                </Link>
+              </div>
+            </div>
             {errors.privacy ? <p className="mt-2 text-xs font-semibold text-brand-error">{errors.privacy}</p> : null}
 
             {submitState === "success" ? (

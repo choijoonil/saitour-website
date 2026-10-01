@@ -15,7 +15,8 @@ const routes = [
   "/blog/airport-pickup",
   "/blog/seoul-city-tour",
   "/blog/dmz-tour",
-  "/contact"
+  "/contact",
+  "/privacy"
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
